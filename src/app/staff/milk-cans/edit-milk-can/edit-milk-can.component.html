@@ -1,0 +1,71 @@
+<div class="content-block bg">
+    <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Edit Milk Can Details</h2>
+                </div>
+                <div class="body">
+                    <form [formGroup]="productsForm">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Can Number</mat-label>
+                                    <input formControlName="canNo" matInput required />
+                                    <mat-error *ngIf="productsForm.get('canNo').hasError('required')">
+                                        Can Number is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Can Name</mat-label>
+                                    <input formControlName="canName" matInput />
+                                    <mat-error *ngIf="productsForm.get('canName').hasError('required')">
+                                        Can Name is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Can Capacity (Kgs)</mat-label>
+                                    <input formControlName="weight" matInput />
+                                    <mat-error *ngIf="productsForm.get('weight').hasError('required')">
+                                        Can Capacity is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Deduction Weight (Kgs)</mat-label>
+                                    <input formControlName="deductionWeight" matInput required />
+                                    <mat-error *ngIf="productsForm.get('deductionWeight').hasError('required')">
+                                        Deduction Weight is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <div class="example-button-row" align="end">
+                                    <button mat-raised-button color="warn" (click)="onCancel()" tabindex="-1">
+                                        Cancel
+                                    </button>
+                                    <button mat-raised-button color="primary" [disabled]="!productsForm.valid"
+                                        (click)="onSubmit()">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        <b>Submit</b>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

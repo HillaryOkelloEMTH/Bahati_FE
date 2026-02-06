@@ -1,0 +1,176 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Milk Collectors'" [items]="['Users']" [active_item]="'Milk Collectors'">
+            </app-breadcrumb>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="table-responsive">
+                            <div class="materialTableHeader">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <ul class="header-buttons-left ms-0">
+                                            <li class="dropdown">
+                                                <div class="m-l-5">
+                                                    <mat-form-field class="example-full-width mb-3"
+                                                        appearance="outline">
+                                                        <mat-label>Filter By </mat-label>
+                                                        <mat-select [(value)]="selected"
+                                                            (selectionChange)="fetchData()">
+                                                            <mat-option value="all"><b>All Accounts</b></mat-option>
+                                                            <mat-option value="active"><b>Active
+                                                                    Accounts</b></mat-option>
+                                                            <mat-option value="deleted"><b>Deleted
+                                                                    Accounts</b></mat-option>
+                                                            <mat-option value="locked"><b>Locked
+                                                                    Accounts</b></mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </li>
+
+                                            <li class="dropdown m-l-5">
+                                                <label for="search-input"><i
+                                                        class="material-icons search-icon">search</i></label>
+                                                <input placeholder="Search" type="text" (keyup)="applyFilter($event)"
+                                                    #filter class="browser-default search-field"
+                                                    aria-label="Search box" />
+                                            </li>
+                                            <li>
+                                                <div class="m-l-10" matTooltip="Refresh">
+                                                    <button mat-mini-fab color="primary" (click)="refresh()">
+                                                        <mat-icon class="col-white">refresh</mat-icon>
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-4">
+                                        <ul class="header-buttons">
+                                            <li>
+                                                <div class="export-button m-l-10" matTooltip="XLSX">
+                                                    <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                                  exporter.exportTable('xlsx', {
+                                    fileName: 'milk-collectors',
+                                    sheet: 'sheet1'
+                                  })
+                                " />
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="export-button m-l-10" matTooltip="CSV">
+                                                    <img src="assets/images/icons/csv.png" alt=""
+                                                        (click)="exporter.exportTable('csv')" />
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="export-button m-l-10" matTooltip="JSON">
+                                                    <img src="assets/images/icons/json.png" alt=""
+                                                        (click)="exporter.exportTable('json')" />
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="export-button m-l-10" matTooltip="TXT">
+                                                    <img src="assets/images/icons/txt.png" alt=""
+                                                        (click)="exporter.exportTable('txt')" />
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <mat-table #table matTableExporter [dataSource]="dataSource" mat-row-hover matSort
+                                class="mat-cell" #exporter="matTableExporter">
+                                <!-- Checkbox Column -->
+                                <ng-container matColumnDef="select">
+                                    <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
+                                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                                            [checked]="selection.hasValue() && isAllSelected()"
+                                            [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                            [ngClass]="'tbl-checkbox'">
+                                        </mat-checkbox>
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
+                                        <mat-checkbox (click)="$event.stopPropagation()"
+                                            (change)="$event ? selection.toggle(row) : null"
+                                            [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
+                                        </mat-checkbox>
+                                    </mat-cell>
+                                </ng-container>
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="id">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="table-img tbl-col-width-per-8">#</mat-header-cell>
+                                    <mat-cell class="table-img tbl-col-width-per-8"
+                                        *matCellDef="let element; let i = index" [class.odd-row]="i % 2"
+                                        [class.even-row]="!(i % 2)">{{i +
+                                        1}}</mat-cell>
+                                </ng-container>
+                                <ng-container matColumnDef="username">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap">Username</mat-header-cell>
+                                    <mat-cell *matCellDef="let user;let i = index" [class.odd-row]="i % 2"
+                                        [class.even-row]="!(i % 2)" class="column-nowrap">{{ user.username }}</mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="email">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap">Email
+                                        Address</mat-header-cell>
+                                    <mat-cell *matCellDef="let user;let i = index" [class.odd-row]="i % 2"
+                                        [class.even-row]="!(i % 2)" class="column-nowrap">{{ user.email }}</mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="name">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap">Name</mat-header-cell>
+                                    <mat-cell *matCellDef="let user;let i = index" [class.odd-row]="i % 2"
+                                        [class.even-row]="!(i % 2)" class="column-nowrap">{{ user.firstName +" "+
+                                        user.lastName }}</mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="action">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="column-nowrap">Action</mat-header-cell>
+                                    <mat-cell *matCellDef="let user;let i = index" [class.odd-row]="i % 2"
+                                        [class.even-row]="!(i % 2)" class="column-nowrap">
+                                        <button mat-icon-button color="primary" (click)="$event.stopPropagation()"
+                                            (click)="milkCollectorDetailsCall(user)" class="tbl-action-btn"
+                                            matTooltip="View Details">
+                                            <mat-icon>visibility</mat-icon>
+                                        </button>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                                <mat-row *matRowDef="let row; columns: displayedColumns" [style.cursor]="'pointer'"
+                                    matRipple>
+                                </mat-row>
+                                <mat-cell *matNoDataRow colspan="4">
+                                    No data matching the filter "{{ input.value }}"</mat-cell>
+                            </mat-table>
+
+                            <!-- Loading spinner -->
+                            <div *ngIf="isLoading" class="tbl-spinner">
+                                <mat-progress-spinner color="primary" [diameter]="60" mode="indeterminate">
+                                </mat-progress-spinner>
+                            </div>
+
+                            <div class="tbl-spinner" *ngIf="isdata==false">
+                                <h4>0 Records Found</h4>
+                            </div>
+                            <mat-paginator #paginator [pageIndex]="0" [pageSize]="5"
+                                [pageSizeOptions]="[5, 10, 25, 100]">
+                            </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

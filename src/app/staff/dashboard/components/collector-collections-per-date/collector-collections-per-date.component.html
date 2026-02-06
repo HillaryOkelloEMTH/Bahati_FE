@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="header">
+    <h2>Price  & Quantity of Collections Made Per Month</h2>
+  </div>
+  <div class="row p-3">
+      <form [formGroup]="chartParametersForm">
+        <div class="row mx-3">
+          <div class="col-6">
+            <mat-form-field appearance="legacy">
+              <mat-label>Select Chart Period</mat-label>
+              <mat-select (selectionChange)="onSelectChart($event)" formControlName="chart">
+                <mat-option *ngFor="let item of chartDispType" value="{{ item }}">{{ item }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngIf="priceChartSelected" class="col-6">
+            <mat-form-field class="example-full-width" appearance="legacy">
+              <mat-label>From Date</mat-label>
+              <input (dateChange)="getCollectionsAmountAnalysisPerDate($event)" matInput [matDatepicker]="picker" formControlName="date" required />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div *ngIf="quantityChartSelected" class="col-6">
+            <mat-form-field class="example-full-width" appearance="legacy">
+              <mat-label>From Date</mat-label>
+              <input (change)="getCollectionsQuantityAnalysisPerDate($event)" matInput [matDatepicker]="picker" formControlName="date" required />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+  </div>
+  <div class="body" *ngIf="!isLoading">
+    <div *ngIf="priceChartSelected">
+      <apx-chart [series]="barChartOptions.series" [chart]="barChartOptions.chart"
+      [dataLabels]="barChartOptions.dataLabels" [plotOptions]="barChartOptions.plotOptions"
+      [responsive]="barChartOptions.responsive" [xaxis]="barChartOptions.xaxis"
+      [tooltip]="barChartOptions.tooltip" [legend]="barChartOptions.legend" [fill]="barChartOptions.fill">
+    </apx-chart>
+    </div>
+    <div *ngIf="quantityChartSelected">
+      <apx-chart [series]="barChartOptions1.series" [chart]="barChartOptions1.chart"
+      [dataLabels]="barChartOptions1.dataLabels" [plotOptions]="barChartOptions1.plotOptions"
+      [responsive]="barChartOptions1.responsive" [xaxis]="barChartOptions1.xaxis"
+      [tooltip]="barChartOptions1.tooltip" [legend]="barChartOptions1.legend" [fill]="barChartOptions!.fill">
+    </apx-chart>
+    </div>
+  </div>
+  <div *ngIf="isLoading">
+    <app-spinner></app-spinner>
+   </div>
+</div>

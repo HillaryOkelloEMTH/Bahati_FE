@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="header">
+    <h2>Quantity of Collections Made Per Month</h2>
+  </div>
+  <div class="row p-3">
+    <form [formGroup]="chartParametersForm">
+      <div class="row mx-3">
+        
+        <div *ngIf="priceChartSelected" class="col-6">
+          <mat-form-field appearance="legacy">
+            <mat-label>Select year</mat-label>
+            <mat-select (selectionChange)="onSelectYear($event)" formControlName="year">
+              <mat-option *ngFor="let item of chartDispType" [value]="item">{{ item }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-6">
+          <mat-form-field class="example-full-width mb-2" appearance="legacy">
+          <mat-label>Collector</mat-label>
+          <input readonly formControlName="collectorId" matInput />
+          <button (click)="collectorsLookup()" mat-icon-button matSuffix
+            [attr.aria-label]="'Hide password'">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        </div>
+      </div>
+    </form>
+</div>
+  <div class="body" *ngIf="!isLoading">
+    <apx-chart [series]="barChartOptions.series" [chart]="barChartOptions.chart"
+      [dataLabels]="barChartOptions.dataLabels" [plotOptions]="barChartOptions.plotOptions"
+      [responsive]="barChartOptions.responsive" [xaxis]="barChartOptions.xaxis"
+      [tooltip]="barChartOptions.tooltip" [legend]="barChartOptions.legend" [fill]="barChartOptions.fill">
+    </apx-chart>
+  </div>
+  <div *ngIf="isLoading">
+    <app-spinner></app-spinner>
+   </div>
+</div>

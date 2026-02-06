@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="header">
+      <h2>Users Per Department</h2>
+    </div>
+    <div class="body" *ngIf="chartXaxis.length>0 && chartYaxis.length>0">
+        <div id="chart">
+            <apx-chart
+              [series]="chartOptions.series"
+              [chart]="chartOptions.chart"
+              [xaxis]="chartOptions.xaxis"
+              [stroke]="chartOptions.stroke"
+              [tooltip]="chartOptions.tooltip"
+              [dataLabels]="chartOptions.dataLabels"
+            ></apx-chart>
+          </div>
+    </div>
+  </div>

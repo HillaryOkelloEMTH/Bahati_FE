@@ -1,0 +1,71 @@
+<div class="content-block bg">
+    <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Add Product Configuration</h2>
+                </div>
+                <div class="body">
+                    <form [formGroup]="priceForm" class="m-4">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Product</mat-label>
+                                    <mat-icon matSuffix (click)="selectProduct()" color="primary"
+                                        matTooltip="Click To Select a Product">search</mat-icon>
+                                    <input matInput formControlName="product" required readonly />
+                                    <mat-error *ngIf="priceForm.get('product').hasError('required')">
+                                        Product is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-6 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Selling Price</mat-label>
+                                    <input formControlName="sellingPrice" matInput />
+                                    <mat-error *ngIf="priceForm.get('sellingPrice').hasError('required')">
+                                        selling price is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                        <mat-label>Milk Center</mat-label>
+                                        <mat-select formControlName="mcc">
+                                          <mat-option *ngFor="let mcc of mccs" [value]="mcc.id">{{ mcc.name
+                                            }}</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                </div>
+                            <div class="col-xl-6 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Effective From</mat-label>
+                                    <input matInput [matDatepicker]="picker1" formControlName="effectiveFrom" required>
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                  </mat-form-field>  
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <div class="example-button-row" align="end">
+                                    <button mat-raised-button color="warn" (click)="onCancel()" tabindex="-1">
+                                        Cancel
+                                    </button>
+                                    <button mat-raised-button color="primary" [disabled]="!priceForm.valid"
+                                        (click)="onSubmit()">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        <b>Submit</b>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

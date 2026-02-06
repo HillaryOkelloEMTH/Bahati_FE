@@ -1,0 +1,84 @@
+@use '@angular/material' as mat;
+
+
+@include mat.core();
+
+$equity-brown-palette: (
+  50: #66716C,
+  100: #5A7167,
+  200: #4F7161,
+  300: #44715C,
+  400: #397157,
+  500: #2D7152,
+  600: #22714D,
+  700: #177147,
+  800:  	#0B7142,
+  900:  	 	#046307,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+
+
+    A400: white,
+    A700: white,
+  )
+);
+
+$equity-stone-brown-palette: (
+  50: #ededed,
+  100: #d0d0d0,
+  200: #b2b1b1,
+  300: #99918c,
+  400: #86786f,
+  500: #736053,
+  600: #67564c,
+  700: #584a42,
+  800: #493d38,
+  900: #39302c,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  )
+);
+
+$meeting-master-primary: mat.define-palette($equity-brown-palette, 900);
+$meeting-master-accent: mat.define-palette($equity-stone-brown-palette, 400);
+
+
+$meeting-master-theme: mat.define-light-theme((
+ color: (
+   primary: $meeting-master-primary,
+   accent: $meeting-master-accent,
+ ),
+ density: 0,
+));
+
+
+@include mat.core-theme($meeting-master-theme);
+@include mat.button-theme($meeting-master-theme);
+@include mat.form-field-theme($meeting-master-theme);
+@include mat.input-theme($meeting-master-theme);
+@include mat.icon-theme($meeting-master-theme);
+

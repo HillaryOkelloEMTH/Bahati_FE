@@ -1,0 +1,70 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modalHeader clearfix">
+                    <div class="modal-about">
+                        <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+                            Generate report
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="farmerProductsForm">
+            <div class="row">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Select Pick Up Location</mat-label>
+                    <input matInput formControlName="name" required readonly />
+                    <mat-icon matSuffix (click)="choosePickUpLocation()">search</mat-icon>
+                    <mat-error *ngIf="farmerProductsForm.get('name').hasError('required')">
+                        MCC is required
+                    </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field class="example-full-width mb-1" appearance="outline">
+                    <mat-label>Select Month</mat-label>
+                    <mat-select formControlName="month" required>
+                      <mat-option *ngFor="let month of months" [value]="month.value">{{ month.name
+                        }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="farmerProductsForm.get('month').hasError('required')">
+                      Month Is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width mb-1" appearance="outline">
+                    <mat-label>Select Year</mat-label>
+                    <mat-select formControlName="year" required>
+                      <mat-option *ngFor="let year of years" [value]="year.value">{{ year.name
+                        }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="farmerProductsForm.get('year').hasError('required')">
+                      Year Is required
+                    </mat-error>
+                </mat-form-field>
+                  
+         
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-raised-button color="warn" (click)="onClick()" tabindex="-1">
+                            Cancel
+                        </button>
+                        <button mat-raised-button color="primary" [disabled]="!farmerProductsForm.valid"
+                            (click)="onSubmit()">
+                            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                            <b>Submit</b>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+       
+    </div>
+</div>

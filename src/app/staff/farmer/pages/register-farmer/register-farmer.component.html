@@ -1,0 +1,579 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modalHeader clearfix">
+          <div class="modal-about">
+            <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+              Farmer / Milk Supplier Registration
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      mat-icon-button
+      (click)="dialogRef.close()"
+      aria-label="Close dialog"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="farmerRegirstartionForm">
+      <!--Supplier Details-->
+      <div class="row">
+        <mat-card>
+          <mat-card-title style="font-size: x-small"
+            >Supplier/Farmer Details</mat-card-title
+          >
+          <mat-card-content>
+            <div class="row">
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>First Name</mat-label>
+                  <input matInput formControlName="firstName" required />
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('firstName')
+                        ?.hasError('required')
+                    "
+                  >
+                    First name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Middle Name</mat-label>
+                  <input matInput formControlName="middleName" />
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('lastName')
+                        .hasError('required')
+                    "
+                  >
+                    middle name name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Last Name</mat-label>
+                  <input matInput formControlName="lastName" required />
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('lastName')
+                        .hasError('required')
+                    "
+                  >
+                    lastName name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>idNumber</mat-label>
+                  <input matInput formControlName="idNumber" required />
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('idNumber')
+                        .hasError('required')
+                    "
+                  >
+                    idNumber name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>mobileNo</mat-label>
+                  <input matInput formControlName="mobileNo" required />
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('mobileNo')
+                        .hasError('required')
+                    "
+                  >
+                    mobileNo name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Alternative MobileNo</mat-label>
+                  <input matInput formControlName="alternativeMobileNo" />
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('alternativeMobileNo')
+                        .hasError('required')
+                    "
+                  >
+                    alternativeMobileNo name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Number of Cows</mat-label>
+                  <input matInput formControlName="noOfCows" type="number" />
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('noOfCows')
+                        .hasError('required')
+                    "
+                  >
+                    Input is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Select Farmer/Supplier Category</mat-label>
+                  <mat-select formControlName="memberType" required>
+                    <mat-option value="Individual">Individual</mat-option>
+                    <mat-option value="Group">Farmers Group</mat-option>
+                    <mat-option value="Co-Operative"
+                      >Co-Operative Society</mat-option
+                    >
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('memberType')
+                        .hasError('required')
+                    "
+                  >
+                    Farmer Category Is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Select Gender</mat-label>
+                  <mat-select formControlName="gender" required>
+                    <mat-option value="Male">Male</mat-option>
+                    <mat-option value="Female">Female</mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm.get('gender').hasError('required')
+                    "
+                  >
+                    Gender Is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!--Area of residence-->
+      <div class="row">
+        <mat-card>
+          <mat-card-title style="font-size: x-small"
+            >Area Of Residence & Milk Collection</mat-card-title
+          >
+          <mat-card-content>
+            <div class="row">
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Select County</mat-label>
+                  <mat-select formControlName="county_fk" required>
+                    <mat-option
+                      *ngFor="let county of counties"
+                      [value]="county.id"
+                    >
+                      {{ county.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('county_fk')
+                        .hasError('required')
+                    "
+                  >
+                    County is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Select Subcounty</mat-label>
+                  <mat-select
+                    formControlName="subcounty_fk"
+                    (selectionChange)="getWards($event)"
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let subcounty of subcounties"
+                      [value]="subcounty.id"
+                    >
+                      {{ subcounty.subcounty }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('subcounty_fk')
+                        .hasError('required')
+                    "
+                  >
+                    Subcounty name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Select Ward</mat-label>
+                  <mat-select formControlName="wardFk" required>
+                    <mat-option *ngFor="let ward of wards" [value]="ward.id">
+                      {{ ward.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm.get('wardFk').hasError('required')
+                    "
+                  >
+                    Ward is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Location</mat-label>
+                  <input matInput formControlName="location" />
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('location')
+                        .hasError('required')
+                    "
+                  >
+                    Location is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Sub Location</mat-label>
+                  <input matInput formControlName="subLocation" />
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('subLocation')
+                        .hasError('required')
+                    "
+                  >
+                    Sub Location is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Village</mat-label>
+                  <input matInput formControlName="village" />
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('village')
+                        .hasError('required')
+                    "
+                  >
+                    Village is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Route</mat-label>
+                  <mat-select formControlName="routeFk" required>
+                    <mat-option *ngFor="let route of routes" [value]="route.id">
+                      {{ route.route }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('routeFk')
+                        .hasError('required')
+                    "
+                  >
+                    Pick Up location is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!--Bank Details-->
+      <div class="row">
+        <mat-card>
+          <mat-card-title style="font-size: x-small"
+            >Bank Details & Payment Frequency</mat-card-title
+          >
+          <mat-card-content>
+            <form [formGroup]="bankDetailsForm">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%; margin-bottom: 12px"
+                  >
+                    <mat-label>Select Payment Mode</mat-label>
+                    <mat-select formControlName="paymentMode" required (selectionChange)="paymentModeChange($event)">
+                      <mat-option *ngFor="let mode of paymentModes" [value]="mode.name">{{mode.name}}</mat-option>
+                      <!-- <mat-option value="Bank">Bank</mat-option>
+                      <mat-option value="Cash">Cash</mat-option>
+                      <mat-option value="Pesalink">Pesalink</mat-option>
+                      <mat-option value="cooperative saccos"
+                        >Cooperative Saccos</mat-option>-->
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%; margin-bottom: 12px"
+                  >
+                    <mat-label>Select Bank Name</mat-label>
+                    <mat-select formControlName="bankName" required>
+                      <mat-option
+                        *ngFor="let bank of bankOptions"
+                        [value]="bank.name"
+                      >
+                        {{ bank.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="
+                        bankDetailsForm.get('bankName').hasError('required')
+                      "
+                    >
+                      Bank Name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%; margin-bottom: 12px"
+                  >
+                    <mat-label>Bank Account Number</mat-label>
+                    <input matInput formControlName="accountNumber" required />
+                    <mat-error
+                      *ngIf="
+                        bankDetailsForm
+                          .get('accountNumber')
+                          .hasError('required')
+                      "
+                    >
+                      Bank Account No is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%; margin-bottom: 12px"
+                  >
+                    <mat-label>Bank Account Name</mat-label>
+                    <input matInput formControlName="accountName" required />
+                    <mat-error
+                      *ngIf="
+                        bankDetailsForm.get('accountName').hasError('required')
+                      "
+                    >
+                      Bank Account name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%; margin-bottom: 12px"
+                  >
+                    <mat-label>Branch Name</mat-label>
+                    <input matInput formControlName="branch" required />
+                    <mat-error
+                      *ngIf="bankDetailsForm.get('branch').hasError('required')"
+                    >
+                      Bank branch name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!--Transportation & Payment Frequency-->
+      <div class="row">
+        <mat-card>
+          <mat-card-title style="font-size: x-small"
+            >Transportation & Payment Frequency</mat-card-title
+          >
+          <mat-card-content>
+            <div class="row">
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Select Payment Frequency</mat-label>
+                  <mat-select formControlName="paymentFreequency">
+                    <mat-option value="Monthly">Monthly</mat-option>
+                    <mat-option value="Weekly">Weekly</mat-option>
+                    <mat-option value="2Weeks">Two Weeks</mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('paymentFreequency')
+                        .hasError('required')
+                    "
+                  >
+                    Payment Frequency is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                <mat-form-field
+                  appearance="outline"
+                  style="width: 100%; margin-bottom: 12px"
+                >
+                  <mat-label>Select Means Of Transportation</mat-label>
+                  <mat-select formControlName="transportMeans">
+                    <mat-option value="Truck">Truck</mat-option>
+                    <mat-option value="Motor-Bike">Motor-Bike</mat-option>
+                    <mat-option value="Bicycle">Bicycle</mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      farmerRegirstartionForm
+                        .get('transportMeans')
+                        .hasError('required')
+                    "
+                  >
+                    Means of transportation is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="row">
+        <mat-card>
+          <mat-card-content>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-0">
+              <div class="example-button-row">
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="onClick()"
+                  tabindex="-1"
+                >
+                  Cancel
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  [disabled]="
+                    !farmerRegirstartionForm.valid || !bankDetailsForm.valid
+                  "
+                  (click)="onSubmit()"
+                >
+                  <span
+                    *ngIf="loading"
+                    class="spinner-border spinner-border-sm mr-1"
+                  ></span>
+                  <b>Submit</b>
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Transactions'" [items]="['Admin']" [active_item]="'User Transactions'">
+      </app-breadcrumb>
+    </div>
+    <!-- Widgets -->
+    <app-user-widgets></app-user-widgets>
+    <!-- #END# Widgets -->
+
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12">
+        <div class="card">
+          <div class="body">
+            <div class="table-responsive">
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ms-0">
+                      <li class="dropdown">
+                        <h2>User Activities</h2>
+                      </li>
+                      <li class="dropdown m-l-20">
+                        <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                        <input placeholder="Search" type="text" (keyup)="applyFilter($event)" #filter
+                          class="browser-default search-field" aria-label="Search box" />
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-4">
+                    <div class="col-8 mx-auto">
+                      <!-- *ngIf="myForm.controls['myControl']" -->
+                      <form [formGroup]="Form">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                          <mat-label>Choose a date</mat-label>
+                          <input matInput [matDatepicker]="picker" formControlName="stime"
+                            (dateChange)="selectDate($event)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                          <mat-error *ngIf="
+                              Form.get('stime').hasError('stime') &&
+                              Form.get('stime').touched
+                            ">
+                            Please enter Start Date
+                          </mat-error>
+                        </mat-form-field>
+                      </form>
+
+                      <!-- <mat-form-field class="example-full-width">
+                        <mat-label>Pick a date</mat-label>
+                        <input
+                          matInput
+                          [matDatepicker]="picker3"
+                          formControlName="stime"
+                          required
+                          (dateChange)="selectDate($event)"
+                        />
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="picker3"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>
+                      </mat-form-field> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header class="column-nowrap psl-3 tbl-col-width-per-10">Id
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let log" class="column-nowrap psl-3 tbl-col-width-per-10">{{ log.id
+                    }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="time">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-20">Time
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let log" class="column-nowrap psl-3 tbl-col-width-per-20">
+                    {{ log.starttime | date : "medium" }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="username">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-18">Username
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let log" class="column-nowrap psl-3 tbl-col-width-per-18">
+                    {{ log.username }}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="requesttip">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-18">Request IP
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let log" class="column-nowrap psl-3 tbl-col-width-per-18">
+                    {{ log.requestip }}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="activity">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-60">Activity
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let log" class="column-nowrap psl-3 tbl-col-width-per-60">
+                    {{ log.activity }}
+                  </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns">
+                </mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns" [style.cursor]="'pointer'" matRipple>
+                </mat-row>
+              </mat-table>
+              <!-- Loading spinner -->
+              <div *ngIf="isLoading" class="tbl-spinner">
+                <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                </mat-progress-spinner>
+              </div>
+              <div *ngIf="logs.length < 0" class="no-results" [style.display]="
+                  dataSource.renderedData.length == 0 ? '' : 'none'
+                ">
+                No results
+              </div>
+              <mat-paginator #paginator [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 15, 20, 25]">
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <app-daily-logs></app-daily-logs> -->
+  </div>
+</section>

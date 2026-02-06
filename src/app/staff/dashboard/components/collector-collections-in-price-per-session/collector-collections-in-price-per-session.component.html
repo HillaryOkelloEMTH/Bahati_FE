@@ -1,0 +1,71 @@
+<div class="card">
+  <div class="header">
+    <h2><span *ngIf="meetingsExist">{{ meetingTitle }}</span> Collector Collections In Price Per Session</h2>
+  </div>
+  <div class="row p-3">
+    <form [formGroup]="chartParametersForm">
+      <div class="row mx-3">
+        
+        <div class="col-4">
+          <mat-form-field appearance="legacy">
+            <mat-label>Select year</mat-label>
+            <mat-select (selectionChange)="onSelectYear($event)" formControlName="year">
+              <mat-option *ngFor="let item of chartDispType" [value]="item">{{ item }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field appearance="legacy">
+            <mat-label>Select month</mat-label>
+            <mat-select (selectionChange)="onSelectMonth($event)" formControlName="month">
+              <mat-option *ngFor="let item of monthsArray" [value]="item.value">{{ item.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field class="example-full-width mb-2" appearance="legacy">
+          <mat-label>Collector</mat-label>
+          <input readonly formControlName="collectorId" matInput />
+          <button (click)="collectorsLookup()" mat-icon-button matSuffix
+            [attr.aria-label]="'Hide password'">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        </div>
+      </div>
+    </form>
+</div>
+  <div *ngIf="!isLoading" class="col-md-6 mx-auto py-4 mt-3">
+    <div class="recent-report__chart">
+      <canvas baseChart class="chart" [data]="doughnutChartData" [labels]="doughnutChartLabels"
+        [options]="doughnutChartOptions" [legend]="doughnutChartLegend" [chartType]="doughnutChartType"
+        [colors]="doughnutChartColors"></canvas>
+    </div>
+    <div class="country-chart">
+      <div class="d-flex justify-content-between mx-xl-5 mt-3">
+        <div class="chart-note">
+          <span class="dot dot-product bg-green"></span>
+          <span>Session 1</span>
+        </div>
+        <p class="mb-0">{{ sessionOne }}</p>
+      </div>
+      <div class="d-flex justify-content-between mx-xl-5 mt-3">
+        <div class="chart-note">
+          <span class="dot dot-product bg-orange"></span>
+          <span>Session 2</span>
+        </div>
+        <p class="mb-0">{{ sessionTwo }}</p>
+      </div>
+      <div class="d-flex justify-content-between mx-xl-5 mt-3">
+        <div class="chart-note">
+          <span class="dot dot-product bg-purple"></span>
+          <span>Session 1</span>
+        </div>
+        <p class="mb-0">{{ sessionThree }}</p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isLoading">
+    <app-spinner></app-spinner>
+   </div>
+</div>

@@ -1,0 +1,236 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb
+        [title]="'Inventory Management'"
+        [items]="['Home', 'Inventory']"
+        [active_item]="'Center'">
+      </app-breadcrumb>
+    </div>
+
+    <div class="card">
+      <div class="col-12">
+        <div class="boxs mail_listing">
+          <div class="row">
+            <div class="col-12">
+              <div class="body">
+
+                <!-- Spinner -->
+                <div *ngIf="isLoading" class="tbl-spinner text-center">
+                  <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate"></mat-progress-spinner>
+                </div>
+
+                <!-- Centers List View -->
+                <div *ngIf="!selectedCenter && !isLoading">
+                  <div class="materialTableHeader">
+                    <div class="row">
+                      <div class="col-8">
+                        <ul class="header-buttons-left ms-0">
+                          <li class="dropdown"><h2>Centers</h2></li>
+                          <li>
+                            <div class="m-l-10" matTooltip="Refresh">
+                              <button mat-mini-fab color="primary" (click)="refresh()">
+                                <mat-icon class="col-white">refresh</mat-icon>
+                              </button>
+                            </div>
+                          </li>
+                          <li class="dropdown m-l-20">
+                            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                            <input
+                              id="search-input"
+                              placeholder="Search by name, ward, etc."
+                              type="text"
+                              (keyup)="centerFilter($event)"
+                              class="browser-default search-field"
+                              aria-label="Search box"
+                            />
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Centers Table -->
+                  <div class="table-responsive">
+                    <mat-table [dataSource]="centersDataSource" matSort class="mat-cell w-100">
+                      <ng-container matColumnDef="index">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-col-width-per-10 column-nowrap">#</mat-header-cell>
+                        <mat-cell *matCellDef="let element; let i = index" class="tbl-col-width-per-10 column-wrap">{{ i + 1 }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="name">
+                        <mat-header-cell
+                          *matHeaderCellDef
+                          mat-sort-header
+                          style="min-width: 200px; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                          Name
+                        </mat-header-cell>
+                        <mat-cell
+                          *matCellDef="let element"
+                          style="min-width: 200px; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                          {{ element.name }}
+                        </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="landmark">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Landmark</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.landmark }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="subcounty">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Subcounty</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.subcounty }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="ward">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Ward</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.ward }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef>View Products</mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                          <button mat-icon-button color="primary" (click)="onSelectCenter(element)">
+                            <mat-icon>visibility</mat-icon>
+                          </button>
+                        </mat-cell>
+                      </ng-container>
+
+                      <mat-header-row *matHeaderRowDef="['index', 'name', 'landmark', 'subcounty', 'ward', 'actions']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['index', 'name', 'landmark', 'subcounty', 'ward', 'actions']"></mat-row>
+                    </mat-table>
+                    <mat-paginator #centerPaginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+                  </div>
+                </div>
+
+                <!-- Selected Center Products Table -->
+                <div *ngIf="selectedCenter && !isLoading">
+                  <h5>Allocated Products for <span style="color: #046307;"> {{ selectedCenter.name }}</span></h5>
+
+                  <!-- Search + Back Button -->
+                  <div class="materialTableHeader mb-3">
+                    <div class="row align-items-center">
+                      <div class="col-8">
+                        <ul class="header-buttons-left ms-0">
+                          <li>
+                            <div class="m-l-8" matTooltip="Refresh">
+                              <button mat-mini-fab color="primary" (click)="refreshAllocations()">
+                                <mat-icon class="col-white">refresh</mat-icon>
+                              </button>
+                            </div>
+                          </li>
+                          <li class="dropdown m-l-20">
+                            <label for="product-search-input"><i class="material-icons search-icon">search</i></label>
+                            <input
+                              id="product-search-input"
+                              placeholder="Filter products"
+                              type="text"
+                              (input)="mccProductFilter($event)"
+                              class="browser-default search-field"
+                              aria-label="Product Search box"
+                            />
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-4 text-end">
+                        <ul class="header-buttons">
+                          <li>
+                              <button mat-stroked-button color="accent" (click)="goBack()"> <span style="color: #046307;"> <--Back to Centers</span></button>
+                          </li>
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="XLSX">
+                              <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                                    exporter.exportTable('xlsx', {
+                                      fileName: selectedCenter.name + '_products',
+                                      sheet: 'sheet1'
+                                    })
+                                  " />
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Product Table -->
+                  <div *ngIf="mccdata; else noProducts">
+                    <mat-table #table matTableExporter [exporterColumns]="exportColumns" [dataSource]="mccProductsDataSource" #exporter="matTableExporter" matSort class="mat-elevation-z8 w-100">
+
+                      <ng-container matColumnDef="index">
+                        <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+                          <mat-cell *matCellDef="let element; let i = index">
+                           {{ i + 1 }}
+                    </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="price">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Buying Price</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.price }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="salePrice">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Selling Price</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.salePrice }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="profit">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Profit</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.profit }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="discounted">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Discounted</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.discounted }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="discount">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Discount (%)</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.discount }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="stock">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Stock</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.stock }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="updateDate">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Updated On</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.updateDate | date: "YYYY d, y hh:mm a" }}</mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                          <button mat-icon-button (click)="editProduct(element)">
+                            <mat-icon style="color: grey;">launch</mat-icon>
+                          </button>
+                          <button mat-icon-button (click)="deleteProduct(element)">
+                            <mat-icon style="color: red;">delete_outline</mat-icon>
+                          </button>
+                        </mat-cell>
+                      </ng-container>
+
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                    </mat-table>
+                    <mat-paginator #mccPaginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+                  </div>
+
+                  <ng-template #noProducts>
+                    <p>No products found for this center.</p>
+                  </ng-template>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,111 @@
+<div class="content-block bg">
+    <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Add Product Configuration</h2>
+                </div>
+                <div class="body">
+                    <form [formGroup]="configsForm" class="m-4">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Product Name</mat-label>
+                                    <input formControlName="productName" matInput required  readonly/>
+                                    <mat-error *ngIf="configsForm.get('productName').hasError('required')">
+                                        Product Name is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Buying Price</mat-label>
+                                    <input formControlName="buyingPrice" matInput type="number"/>
+                                    <mat-error *ngIf="configsForm.get('buyingPrice').hasError('required')">
+                                        buying price is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Selling Price</mat-label>
+                                    <input formControlName="sellingPrice" type="number" matInput required />
+                                    <mat-error *ngIf="configsForm.get('sellingPrice').hasError('required')">
+                                        selling price is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Unit Of Measurement</mat-label>
+                                    <input formControlName="unitMeasurement" matInput readonly/>
+                                    <mat-error *ngIf="configsForm.get('unitMeasurement').hasError('required')">
+                                        Unit of Measurement is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Quantity</mat-label>
+                                    <input matInput formControlName="quantity" required readonly/>
+                                    <mat-error *ngIf="configsForm.get('quantity').hasError('required')">
+                                        quantity is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Effective From</mat-label>
+                                    <input matInput [matDatepicker]="picker1" formControlName="effectiveFrom" required>
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                  </mat-form-field>  
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="filterType === 'center'">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Collection Center</mat-label>
+                                    <mat-select formControlName="mccFk">
+                                      <mat-option *ngFor="let center of centers" [value]="center.id">{{ center.name
+                                        }}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="filterType === 'route'">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Ward</mat-label>
+                                    <mat-select formControlName="routeFk">
+                                      <mat-option *ngFor="let route of routes" [value]="route.id">{{ route.route
+                                        }}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <div class="example-button-row" align="end">
+                                    <button mat-raised-button color="warn" (click)="onCancel()" tabindex="-1">
+                                        Cancel
+                                    </button>
+                                    <button mat-raised-button color="primary" [disabled]="!configsForm.valid"
+                                        (click)="onSubmit()">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        <b>Submit</b>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+
+
+
+
+<div class="content-block bg">
+  <div class="row clearfix bg">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="modalHeader">
+          <div class="modal-about">
+            <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+              Payment Mode Details
+            </div>
+          </div>
+          <button mat-icon-button (click)="close()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div mat-dialog-content>
+          <form class="register-form m-4" [formGroup]="paymentForm">
+            <div class="row">
+              <div class="col-xl-12 mb-2">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Category Name</mat-label>
+                  <input matInput formControlName="name" readonly />
+                </mat-form-field>
+          
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Created On</mat-label>
+                  <input matInput formControlName="createdAt" readonly />
+                </mat-form-field>
+              </div>
+            
+              <div class="col-xl-12 mb-2">
+                <mat-checkbox formControlName="active"[disabled]="true">Active</mat-checkbox>
+              </div>
+              <div class="col-xl-12 mb-2">
+                <div class="example-button-row">
+                  <button mat-raised-button color="warn" (click)="close()" tabindex="-1">
+                    Cancel
+                  </button>
+                 
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

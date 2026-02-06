@@ -1,0 +1,93 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Add User'" [items]="['User']" [active_item]="'Add User'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Add User</h2>
+          </div>
+          <div class="body">
+            
+            <form [formGroup]="userForm" class="m-4">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>User name</mat-label>
+                    <input formControlName="user_name" matInput required />
+                    <mat-error *ngIf="userForm.get('user_name').hasError('required')">
+                      User name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>First name</mat-label>
+                    <input formControlName="first_name" matInput />
+                    <mat-error *ngIf="userForm.get('first_name').hasError('required')">
+                      First name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Last name</mat-label>
+                    <input formControlName="last_name" matInput required />
+                    <mat-error *ngIf="userForm.get('last_name').hasError('required')">
+                      Last name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input formControlName="email" matInput />
+                    <mat-error *ngIf="userForm.get('email').hasError('required')">
+                      Email is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-1" appearance="outline">
+                    <mat-label>Role</mat-label>
+                    <input formControlName="role" matInput />
+                    <button (click)="roleLookup()" mat-icon-button matSuffix
+                      [attr.aria-label]="'Hide password'">
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg- col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Mobile</mat-label>
+                    <input matInput formControlName="mobile" required />
+                    <mat-error *ngIf="userForm.get('mobile').hasError('required')">
+                      Mobile name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!userForm.valid" mat-raised-button color="primary" (click)="addUser()">
+                    Submit
+                  </button>
+                  <button type="button" mat-button (click)=" onCancel()">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

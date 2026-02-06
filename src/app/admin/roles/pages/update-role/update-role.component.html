@@ -1,0 +1,80 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modalHeader clearfix">
+          <img src="../../../../../assets/images/emtec.png" alt="avatar" />
+          <div class="modal-about">
+            <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+              Update Role
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      mat-icon-button
+      (click)="dialogRef.close()"
+      aria-label="Close dialog"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="updateRoleForm">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Role Name</mat-label>
+            <input matInput formControlName="role" required />
+            <mat-error *ngIf="updateRoleForm.get('role').hasError('required')">
+              Category name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="outline">
+            <mat-label>Access Rights</mat-label>
+            <mat-select multiple name="type_list" required>
+              <mat-option
+                ngDefaultControl
+                formControlName="accessRights"
+                *ngFor="let accesRight of accessRights"
+                [value]="accesRight"
+              >
+                {{ accesRight }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="updateRoleForm.get('accessRights').hasError('required')"
+            >
+              Access rights required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row" align="end">
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="!updateRoleForm.valid"
+            >
+              Save
+            </button>
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="onClick()"
+              tabindex="-1"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

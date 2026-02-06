@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="header">
+    <h2>Milk Collection Quantity Against Price</h2>
+  </div>
+  <div class="row p-3">
+    <form [formGroup]="chartParametersForm">
+      <div class="row mx-3">
+        <div class="col-4">
+          <mat-form-field appearance="legacy">
+            <mat-label>Select year</mat-label>
+            <mat-select (selectionChange)="onSelectYear($event)" formControlName="year">
+              <mat-option *ngFor="let item of chartDispType" [value]="item">{{ item }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field appearance="legacy">
+            <mat-label>Select month</mat-label>
+            <mat-select (selectionChange)="onSelectMonth($event)" formControlName="month">
+              <mat-option *ngFor="let item of monthsArray" [value]="item.value">{{ item.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+</div>
+  <div class="body">
+    <div class="recent-report__chart" *ngIf="!isLoading">
+      <apx-chart [series]="lineChartOptions.series" [chart]="lineChartOptions.chart"
+        [xaxis]="lineChartOptions.xaxis" [stroke]="lineChartOptions.stroke" [colors]="lineChartOptions.colors"
+        [dataLabels]="lineChartOptions.dataLabels" [legend]="lineChartOptions.legend"
+        [tooltip]="lineChartOptions.tooltip" [markers]="lineChartOptions.markers" [grid]="lineChartOptions.grid"
+        [yaxis]="lineChartOptions.yaxis" [title]="lineChartOptions.title" [fill]="lineChartOptions.fill">
+      </apx-chart>
+    </div>
+  </div>
+  <div *ngIf="isLoading">
+    <app-spinner></app-spinner>
+   </div>
+</div>

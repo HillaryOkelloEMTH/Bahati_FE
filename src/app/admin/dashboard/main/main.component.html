@@ -1,0 +1,117 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Dashboard'" [items]="['Home']" [active_item]="'Dashboard'">
+      </app-breadcrumb>
+    </div>
+
+    <!-- Widgets -->
+    <div class="row" *ngIf="loaded">
+      <div class="col-lg-2 col-sm-4">
+        <div class="info-box7 bg-c-brown order-info-box7" matTooltip="System Users" routerLink="/admin/users">
+          <div class="info-box7-block">
+            <h4 class="m-b-20">Users</h4>
+            <h2 class="text-end"><span class="float-start">{{users}}</span><i class="fas fa-th"></i></h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-4">
+        <div class="info-box7 bg-c-brown order-info-box7" matTooltip="All Teams Maintained" routerLink="/admin/teams">
+          <div class="info-box7-block">
+            <h4 class="m-b-20">Teams</h4>
+            <h2 class="text-end"><span class="float-start">{{teams}}</span><i class="fas fa-th"></i></h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-4">
+        <div class="info-box7 bg-c-brown order-info-box7" matTooltip="All Departments" routerLink="/admin/departments">
+          <div class="info-box7-block">
+            <h4 class="m-b-20">Departments</h4>
+            <h2 class="text-end"><span class="float-start">{{departments}}</span><i class="fas fa-th"></i></h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-4">
+        <div class="info-box7 bg-c-brown order-info-box7" matTooltip="All Subsidiaries"
+          routerLink="/admin/subsidiaries">
+          <div class="info-box7-block">
+            <h4 class="m-b-20">Subsidiaries</h4>
+            <h2 class="text-end"><span class="float-start">{{subsidiaries}}</span><i class="fas fa-th"></i></h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-4">
+        <div class="info-box7 bg-c-brown order-info-box7" matTooltip="Meeting Categories"
+          routerLink="/admin/meetingcategories">
+          <div class="info-box7-block">
+            <h4 class="m-b-20">Categories</h4>
+            <h2 class="text-end"><span class="float-start">{{meetingCategories}}</span><i class="fas fa-th"></i></h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-4">
+        <div class="info-box7 bg-c-brown order-info-box7" matTooltip="Action Types" routerLink="/admin/actiontypes">
+          <div class="info-box7-block">
+            <h4 class="m-b-20">Types</h4>
+            <h2 class="text-end"><span class="float-start">{{actionTypes}}</span><i class="fas fa-th"></i></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-collections-per-user></app-collections-per-user>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-users-per-department></app-users-per-department>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-collector-collections></app-collector-collections>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-collector-collections-milk-price></app-collector-collections-milk-price>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <app-bahati-daily-summary></app-bahati-daily-summary>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-milk-collection-quantity-against-price></app-milk-collection-quantity-against-price>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-collector-collections-count></app-collector-collections-count>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-collector-collections-in-quantity-per-session></app-collector-collections-in-quantity-per-session>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-collector-collections-in-price-per-session></app-collector-collections-in-price-per-session>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-milk-qauntity-per-location></app-milk-qauntity-per-location>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-collections-quantity></app-collections-quantity>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-collections-price></app-collections-price>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <app-collector-collections-per-date></app-collector-collections-per-date>
+      </div>
+    </div>
+  </div>
+</section>

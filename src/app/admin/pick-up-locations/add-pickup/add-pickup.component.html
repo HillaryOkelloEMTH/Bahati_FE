@@ -1,0 +1,314 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+        <form [formGroup]="pickupLocationForm" class="mx-4">
+            <mat-step [stepControl]="pickupLocationForm">
+                <ng-template matStepLabel>General Details</ng-template>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-1" appearance="outline">
+                            <mat-label>Collection center name </mat-label>
+                            <input formControlName="name" matInput />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-1" appearance="outline">
+                            <mat-label>Collection center land mark</mat-label>
+                            <input formControlName="landMark" matInput />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width mb-2" appearance="outline">
+                            <mat-label>Subcounty</mat-label>
+                            <input readonly formControlName="subcounty_fk" matInput />
+                            <button (click)="pickSubCountyDialog()" mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Ward</mat-label>
+                            <mat-select formControlName="ward_fk">
+                              <mat-option *ngFor="let ward of wards" [value]="ward.id">{{ ward.name
+                                }}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                </div>
+                <div>
+                    <button mat-raised-button (click)="dialogRef.close()" color="warn"  class="msr-2">
+                        Cancel
+                    </button>
+                    <button mat-raised-button matStepperNext color="primary">
+                        Next
+                    </button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Collection Centers Routes</ng-template>
+                <div class="row">
+                    <form [formGroup]="routesForm" class="mx-4">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-1">
+                                <mat-form-field class="example-full-width mb-1" appearance="outline">
+                                    <mat-label>Route name</mat-label>
+                                    <input formControlName="route" matInput />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <button *ngIf="!updateRouteItem" mat-raised-button color="primary" class="msr-2"
+                                (click)="addRoute()" [disabled]="!routesForm.valid">
+                                Add Route
+                            </button>
+                            <button *ngIf="updateRouteItem" mat-raised-button color="accent" class="msr-2"
+                                (click)="updateRoute()" [disabled]="!routesForm.valid">
+                                Update Route
+                            </button>
+                        </div>
+                        <div class="card">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="boxs mail_listing">
+                                    <div class="row">
+                                        <div class="body">
+                                            <div class="table-responsive">
+                                                <div class="materialTableHeader mt-3">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <ul class="header-buttons-left ms-0">
+                                                                <li class="dropdown">
+                                                                    <h2>Routes</h2>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <mat-table #table matTableExporter [dataSource]="routesDataSource"
+                                                    matSort class="mat-cell" #exporter="matTableExporter">
+                                                    <ng-container matColumnDef="index">
+                                                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            class="psl-3 tbl-col-width-per-25">Id</mat-header-cell>
+                                                        <mat-cell *matCellDef="let row; let i = index"
+                                                            class="psl-3 tbl-col-width-per-25">{{ i + 1
+                                                            }}</mat-cell>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="title">
+                                                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            class="column-nowrap psl-3 tbl-col-width-per-80">Route</mat-header-cell>
+                                                        <mat-cell *matCellDef="let row" (click)="onSelect(row)"
+                                                            class="column-nowrap psl-3 tbl-col-width-per-80">
+                                                            {{ row.route }}
+                                                        </mat-cell>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="actions">
+                                                        <mat-header-cell
+                                                            class="column-nowrap psl-3 tbl-col-width-per-80"
+                                                            *matHeaderCellDef>Actions</mat-header-cell>
+                                                        <mat-cell *matCellDef="let row; let i = index"
+                                                            class="column-nowrap psl-3 tbl-col-width-per-80">
+                                                            <button mat-icon-button color="accent"
+                                                                (click)="$event.stopPropagation()"
+                                                                (click)="updateRouteCall(i, row)"
+                                                                class="tbl-action-btn">
+                                                                <app-feather-icons [icon]="'edit'"
+                                                                    [class]="'tbl-fav-edit'"></app-feather-icons>
+                                                            </button>
+                                                            <button mat-icon-button color="accent"
+                                                                (click)="$event.stopPropagation()"
+                                                                (click)="removeRoute(i)" class="tbl-action-btn">
+                                                                <app-feather-icons [icon]="'trash-2'"
+                                                                    [class]="'tbl-fav-delete'"></app-feather-icons>
+                                                            </button>
+                                                        </mat-cell>
+                                                    </ng-container>
+
+                                                    <mat-header-row
+                                                        *matHeaderRowDef="routesDisplayedColumns"></mat-header-row>
+
+                                                    <mat-row
+                                                        *matRowDef="let row; let i = index; columns: routesDisplayedColumns"
+                                                        [class.odd-row]="i % 2" [class.even-row]="!(i % 2)"
+                                                        [style.cursor]="'pointer'" matRipple>
+                                                    </mat-row>
+                                                    <mat-cell *matNoDataRow colspan="4">
+                                                        No data matching the filter "{{
+                                                        input.value
+                                                        }}"</mat-cell>
+                                                </mat-table>
+                                                <div *ngIf="agendasNotAdded">
+                                                    <p class="p-3">No routes added yet</p>
+                                                </div>
+                                                <mat-paginator [pageSize]="2" #routesPaginator="matPaginator"
+                                                    [pageSizeOptions]="[2, 5, 10, 20, 30, 40, 50, 100]"
+                                                    aria-label="Select page of users"></mat-paginator>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <button mat-raised-button (click)="dialogRef.close()" color="warn"  class="msr-2">
+                        Cancel
+                    </button>
+                    <button mat-raised-button matStepperPrevious color="accent" class="msr-2">
+                        Back
+                    </button>
+                    <button mat-raised-button matStepperNext color="primary">
+                        Next
+                    </button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Collection Center Collectors</ng-template>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                        <div class="list-group list-group-flush">
+                            <div>
+                                <div class="row">
+                                    <form [formGroup]="collectorsForm" class="mx-4">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                            <button *ngIf="activateLookupCollectors" style="margin-bottom: 10px"
+                                                type="button" (click)="milkCollectorsLookup()" mat-raised-button
+                                                color="primary" class="mb-3">
+                                                Lookup Collectors
+                                            </button>
+                                            <button *ngIf="!activateLookupCollectors" style="margin-bottom: 10px"
+                                                type="button" (click)="clearMilkCollectors()" mat-raised-button color="warn"
+                                                class="mb-3">
+                                                Clear Collectors
+                                            </button>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="boxs mail_listing">
+                                                    <div class="row">
+                                                        <div class="body">
+                                                            <div class="table-responsive">
+                                                                <div class="materialTableHeader mt-3">
+                                                                    <div class="row">
+                                                                        <div class="col-8">
+                                                                            <ul class="header-buttons-left ms-0">
+                                                                                <li class="dropdown">
+                                                                                    <h2>Milk Collectors
+                                                                                    </h2>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <mat-table #table matTableExporter
+                                                                    [dataSource]="collectorsDataSource" matSort
+                                                                    class="mat-cell" #exporter="matTableExporter">
+                                                                    <ng-container matColumnDef="index">
+                                                                        <mat-header-cell *matHeaderCellDef
+                                                                            mat-sort-header
+                                                                            class="psl-3 tbl-col-width-per-35">Id</mat-header-cell>
+                                                                        <mat-cell *matCellDef="let row; let i = index"
+                                                                            class="psl-3 tbl-col-width-per-35">{{
+                                                                            i + 1 }}</mat-cell>
+                                                                    </ng-container>
+                                                                    <ng-container matColumnDef="type">
+                                                                        <mat-header-cell *matHeaderCellDef
+                                                                            mat-sort-header
+                                                                            class="column-nowrap psl-3 tbl-col-width-per-80">Type</mat-header-cell>
+                                                                        <mat-cell *matCellDef="let row"
+                                                                            (click)="onSelect(row)"
+                                                                            class="column-nowrap psl-3 tbl-col-width-per-80">
+                                                                            {{ row.username }}
+                                                                        </mat-cell>
+                                                                    </ng-container>
+                                                                    <ng-container matColumnDef="actions">
+                                                                        <mat-header-cell
+                                                                            class="column-nowrap psl-3 tbl-col-width-per-80"
+                                                                            *matHeaderCellDef>Actions</mat-header-cell>
+                                                                        <mat-cell *matCellDef="let row; let i = index"
+                                                                            class="column-nowrap psl-3 tbl-col-width-per-80">
+                                                                            <!-- <button mat-icon-button color="accent"
+                                                                                (click)="$event.stopPropagation()"
+                                                                                (click)="updateAttendeeCall(i, row)"
+                                                                                class="tbl-action-btn">
+                                                                                <app-feather-icons [icon]="'edit'"
+                                                                                    [class]="'tbl-fav-edit'"></app-feather-icons>
+                                                                            </button> -->
+                                                                            <button mat-icon-button color="accent"
+                                                                                (click)="$event.stopPropagation()"
+                                                                                (click)="removeCollector(i)"
+                                                                                class="tbl-action-btn">
+                                                                                <app-feather-icons [icon]="'trash-2'"
+                                                                                    [class]="'tbl-fav-delete'"></app-feather-icons>
+                                                                            </button>
+                                                                        </mat-cell>
+                                                                    </ng-container>
+                                                                    <mat-header-row
+                                                                        *matHeaderRowDef="collectorsDisplayedColumns">
+                                                                    </mat-header-row>
+
+                                                                    <mat-row
+                                                                        *matRowDef="let row; let i = index; columns: collectorsDisplayedColumns"
+                                                                        [class.odd-row]="i % 2"
+                                                                        [class.even-row]="!(i % 2)"
+                                                                        [style.cursor]="'pointer'" matRipple>
+                                                                    </mat-row>
+                                                                    <mat-cell *matNoDataRow colspan="4">
+                                                                        No data matching the filter "{{
+                                                                        input.value
+                                                                        }}"</mat-cell>
+                                                                </mat-table>
+                                                                <div *ngIf="collectorsNotAdded">
+                                                                    <p class="p-3">
+                                                                        No collectors added yet
+                                                                    </p>
+                                                                </div>
+                                                                <mat-paginator [pageSize]="2"
+                                                                    #collectorsPaginator="matPaginator"
+                                                                    [pageSizeOptions]="[2, 5, 10, 20, 30, 40, 50, 100]"
+                                                                    aria-label="Select page of users"></mat-paginator>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button mat-raised-button matStepperPrevious color="accent" class="msr-2">
+                        Back
+                    </button>
+                    <button mat-raised-button (click)="dialogRef.close()" color="warn"  class="msr-2">
+                        Cancel
+                    </button>
+                    <button [disabled]="collectorsNotAdded" mat-raised-button matStepperNext color="primary">
+                        Next
+                    </button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+                <p>You are now done.</p>
+                <div>
+                    <button mat-raised-button (click)="dialogRef.close()" color="warn"  class="msr-2">
+                        Cancel
+                    </button>
+                    <button mat-raised-button matStepperPrevious color="accent" class="msr-2">
+                        Back
+                    </button>
+                    <button mat-raised-button color="primary" [disabled]="btnLoading || collectorsNotAdded"
+                        [class.auth-spinner]="btnLoading" (click)="createCollectionCenter()">
+                        Submit
+                    </button>
+                </div>
+            </mat-step>
+        </form>
+    </mat-horizontal-stepper>
+</div>

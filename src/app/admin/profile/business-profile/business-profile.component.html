@@ -1,0 +1,99 @@
+<section class="content">
+    <div class="container-fluid content-block">
+        <div class="card">
+            <div class="header">
+                <h2>Business Profile</h2>
+            </div>
+            <div class="body">
+                <div class="row">
+                    <div class="col-9">
+                        <form [formGroup]="userForm" [class.auth-spinner]="loading">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-0">
+                                    <mat-form-field class="example-full-width mb-0" appearance="outline">
+                                        <mat-label>Company Name</mat-label>
+                                        <input formControlName="companyName" matInput />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-0">
+                                    <mat-form-field class="example-full-width mb-0" appearance="outline">
+                                        <mat-label>Registration Number</mat-label>
+                                        <input formControlName="regNo" matInput />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-0">
+                                    <mat-form-field class="example-full-width mb-0" appearance="outline">
+                                        <mat-label>Email Address</mat-label>
+                                        <input formControlName="companyEmail" matInput />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-0">
+                                    <mat-form-field class="example-full-width mb-0" appearance="outline">
+                                        <mat-label>Phone Number</mat-label>
+                                        <input formControlName="phone" matInput />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-0">
+                                    <mat-form-field class="example-full-width mb-0" appearance="outline">
+                                        <mat-label>location</mat-label>
+                                        <input matInput formControlName="location" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-0">
+                                    <mat-form-field class="example-full-width mb-0" appearance="outline">
+                                        <mat-label>Physical Address</mat-label>
+                                        <input matInput formControlName="physicalAddress" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-0">
+                                    <mat-form-field class="example-full-width mb-0" appearance="outline">
+                                        <mat-label>Website</mat-label>
+                                        <input matInput formControlName="website" />
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-0">
+                                    <mat-form-field class="example-full-width mb-0" appearance="outline">
+                                        <mat-label>Created On</mat-label>
+                                        <input matInput formControlName="createdOn" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-0">
+                                <div class="row p-2">
+                                        <mat-label>Company Logo</mat-label>
+                                            <img [src]="this.profile" *ngIf="this.profile"
+                                                class="col-md-12 img-preview mt-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                        <div class="example-button-row">
+                            <button mat-raised-button *ngIf="state" color="primary" routerLink="/admin/business-profile/edit">
+                                Edit
+                            </button>
+                            <button mat-raised-button *ngIf="!state" color="primary" routerLink="/admin/business-profile/create">
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

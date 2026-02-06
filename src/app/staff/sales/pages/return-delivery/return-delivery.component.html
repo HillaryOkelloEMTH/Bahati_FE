@@ -1,0 +1,123 @@
+<div class="content-block bg">
+            <div class="row clearfix bg">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="modalHeader">
+                            <div class="editRowModal">
+                                <div class="modalHeader clearfix">
+                                    <div class="modalHeader clearfix">
+                                        <div class="modal-about">
+                                            <div class="font-weight-bold p-t-5 font-17">
+                                                Return Delivery for {{farmer}}
+                                            </div>
+                                            <div class="font-weight-bold p-t-6 font-17">
+                                                Farmer Number - {{farmerNo}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+                        <div mat-dialog-content>
+                            <form class="register-form m-4" [formGroup]="editForm">
+                                <div class="row">
+        
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-0">
+        
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Delivery Session</mat-label>
+                                            <mat-select formControlName="session" required readonly>
+                                                <mat-option value="Session 1">Session 1</mat-option>
+                                                <mat-option value="Session 2">Session 2</mat-option>
+                                                <mat-option value="Session 3">Session 3</mat-option>
+                                             </mat-select>
+                                            <mat-error *ngIf="editForm.get('session').hasError('required')">
+                                                Session Is required
+                                            </mat-error>
+                                        </mat-form-field>
+        
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-0">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Delivery Date.</mat-label>
+                                            <input matInput formControlName="date" required readonly />
+                                            <mat-error *ngIf="editForm.get('date').hasError('required')">
+                                                Delivery Date is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Quantity (Kgs)</mat-label>
+                                            <input matInput formControlName="originalQuantity" required readonly/>
+                                            <mat-error *ngIf="editForm.get('originalQuantity').hasError('required')">
+                                                Quantity is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Route</mat-label>
+                                            <input matInput formControlName="route" required readonly/>
+                                            <mat-error *ngIf="editForm.get('route').hasError('required')">
+                                                Route is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-0">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Select can</mat-label>
+                                            <mat-select formControlName="canNo" readonly>
+                                                <mat-option *ngFor="let can of cans" [value]="can.canNo">
+                                                    {{ can.canName }} - {{can.canNo}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="editForm.get('canNo').hasError('required')">
+                                                Can is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div> -->
+                                </div>
+                                <div class="row">
+        
+                                    <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Select Route</mat-label>
+                                            <mat-select formControlName="route" placeholder="Choose an option" [disabled]>
+                                                <mat-option *ngFor="let route of routes" [value]="route.route">
+                                                    {{ route.route }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="editForm.get('route').hasError('required')">
+                                                Route is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div> -->
+        
+                                    
+                                </div>
+        
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                                        <div class="example-button-row">
+                                            <button mat-raised-button color="warn" (click)="onClick()" tabindex="-1">
+                                                Cancel
+                                            </button>
+                                            <button mat-raised-button color="primary" [disabled]="!editForm.valid"
+                                                (click)="onSubmit()">
+                                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                                <b>Submit</b>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                            </form>
+                        </div>
+                    </div>
+                </div>

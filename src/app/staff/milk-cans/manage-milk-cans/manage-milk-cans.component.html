@@ -1,0 +1,152 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Milk Cans Management'" [items]="['Home', 'Configurations']"
+          [active_item]="'Milk Cans'">
+        </app-breadcrumb>
+      </div>
+      <div class="card">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="boxs mail_listing">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="body">
+                  <div class="table-responsive">
+                    <div class="materialTableHeader">
+                      <div class="row">
+                        <div class="col-8">
+                          <ul class="header-buttons-left ms-0">
+                            <li class="dropdown">
+                              <h2>Cans</h2>
+                            </li>
+                            <li class="dropdown m-l-20">
+                              <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                              <input placeholder="Filter..." type="text" (keyup)="applyFilter($event)" #filter
+                                class="browser-default search-field" aria-label="Search box">
+                            </li>
+                            <li>
+                              <div class="m-l-10" matTooltip="Add">
+                                <button mat-mini-fab color="primary" (click)="addCall()">
+                                  <mat-icon class="col-white">add</mat-icon>
+                                </button>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="m-l-10" matTooltip="Refresh">
+                                <button mat-mini-fab color="primary" (click)="refresh()">
+                                  <mat-icon class="col-white">refresh</mat-icon>
+                                </button>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-4">
+                          <ul class="header-buttons">
+                            <li>
+                              <div class="export-button m-l-10" matTooltip="XLSX">
+                                <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                                      exporter.exportTable('xlsx', {
+                                        fileName: 'milk-cans',
+                                        sheet: 'sheet1'
+                                      })
+                                    " />
+                              </div>
+                            </li>
+                            <li>
+                              <div class="export-button m-l-10" matTooltip="CSV">
+                                <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv')" />
+                              </div>
+                            </li>
+                            <li>
+                              <div class="export-button m-l-10" matTooltip="JSON">
+                                <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json')" />
+                              </div>
+                            </li>
+                            <li>
+                              <div class="export-button m-l-10" matTooltip="TXT">
+                                <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
+                      #exporter="matTableExporter">
+                      <!-- ID Column -->
+                      <ng-container matColumnDef="id">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Id
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row;let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">
+                          {{i+1}}</mat-cell>
+                      </ng-container>
+  
+  
+                      <ng-container matColumnDef="canNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header >Can
+                          No</mat-header-cell>
+                        <mat-cell *matCellDef="let row;let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">
+                          {{ row.canNo }}</mat-cell>
+                      </ng-container>
+  
+                      <ng-container matColumnDef="canName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Can Name</mat-header-cell>
+                        <mat-cell *matCellDef="let row;let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">
+                          {{ row.canName }}</mat-cell>
+                      </ng-container>
+  
+                      <ng-container matColumnDef="weight">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Can Capacity (Kg)</mat-header-cell>
+                        <mat-cell *matCellDef="let row;let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">
+                          {{ row.weight}}
+                        </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="deductionWeight">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Deduction Weight (Kg)</mat-header-cell>
+                        <mat-cell *matCellDef="let row;let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">
+                          {{ row.deductionWeight}}
+                        </mat-cell>
+                      </ng-container>
+  
+                      <!-- Actions -->
+                      <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                        <mat-cell *matCellDef="let row;let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)"
+                          (click)="$event.stopPropagation()">
+                          <button mat-icon-button color="primary" (click)="$event.stopPropagation()"
+                            class="tbl-action-btn" (click)="editCall(row)">
+                            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                          </button>
+  
+                          <button mat-icon-button color="warn" (click)="$event.stopPropagation()" class="tbl-action-btn"
+                            (click)="deleteCall(row)">
+                            <app-feather-icons [icon]="'trash'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                          </button>
+                        </mat-cell>
+                      </ng-container>
+  
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns" (click)="viewRoleCall(row)"
+                        [style.cursor]="'pointer'" matRipple>
+                      </mat-row>
+                      <mat-cell *matNoDataRow colspan="4">
+                        No data matching the filter "{{ input.value }}"</mat-cell>
+                    </mat-table>
+                    <!-- Loading spinner -->
+                    <div *ngIf="isLoading" class="tbl-spinner">
+                      <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                      </mat-progress-spinner>
+                    </div>
+                    <mat-paginator [pageSize]="5" [pageSizeOptions]="[1, 2, 5, 10, 20, 30, 40, 50, 100]"
+                      aria-label="Select page of users"></mat-paginator>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

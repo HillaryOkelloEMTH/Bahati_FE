@@ -1,0 +1,431 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'All Collections'" [items]="['Collections']" [active_item]="'All Collections'">
+            </app-breadcrumb>
+        </div>
+        <mat-tab-group>
+            <mat-tab label="Milk Collection Records">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+
+                            <div class="body">
+                                <div class="row">
+
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                                        <div class="card card-statistic-2">
+                                            <div class="clearfix">
+                                                <div class="card-right">
+                                                    <div>
+                                                        <h5 class="float-end">Quantity (Kgs)</h5>
+                                                    </div>
+                                                    <div class="m-r-10 m-l-10">
+                                                        <h3 class="font-weight-bold float-end mb-0">{{dquantity | number
+                                                            : '1.2-2' }}</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-chart">
+                                                <canvas baseChart [chartType]="'line'" [datasets]="cardChart2Data"
+                                                    [labels]="cardChart2Label" [options]="cardChart2" [legend]="true">
+                                                </canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                                        <div class="card card-statistic-2">
+                                            <div class="clearfix">
+                                                <div class="card-right">
+                                                    <div>
+                                                        <h5 class="float-end">Collections Count</h5>
+                                                    </div>
+                                                    <div class="m-r-10 m-l-10">
+                                                        <h3 class="font-weight-bold float-end mb-0">{{dcount}}</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-chart">
+                                                <canvas baseChart [chartType]="'line'" [datasets]="cardChart2Data"
+                                                    [labels]="cardChart2Label" [options]="cardChart2" [legend]="true">
+                                                </canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                                        <div class="card card-statistic-2">
+                                            <div class="clearfix">
+                                                <div class="card-right">
+                                                    <div>
+                                                        <h5 class="float-end">Amount(KES)</h5>
+                                                    </div>
+                                                    <div class="m-r-10 m-l-10">
+                                                        <h3 class="font-weight-bold float-end mb-0">{{damount | number :'1.2-2'  }}</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-chart">
+                                                <canvas baseChart [chartType]="'line'" [datasets]="cardChart2Data"
+                                                    [labels]="cardChart2Label" [options]="cardChart2" [legend]="true">
+                                                </canvas>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                                        <div class="card card-statistic-2">
+                                            <div class="clearfix">
+                                                <div class="card-right">
+                                                    <div>
+                                                        <h5 class="float-end">Farmers</h5>
+                                                    </div>
+                                                    <div class="m-r-10 m-l-10">
+                                                        <h3 class="font-weight-bold float-end mb-0">{{farmers}}</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-chart">
+                                                <canvas baseChart [chartType]="'line'" [datasets]="cardChart2Data"
+                                                    [labels]="cardChart2Label" [options]="cardChart2" [legend]="true">
+                                                </canvas>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                </div>
+                                <div class="table-responsive">
+                                    <div class="materialTableHeader">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <ul class="header-buttons-left ms-0">
+                                                    <!-- <li class="dropdown">
+                                                        <label for="search-input"><i
+                                                                class="material-icons search-icon">search</i></label>
+                                                        <input placeholder="Search" type="text"
+                                                            style="text-transform: capitalize;"
+                                                            (keyup)="applyFilter($event)"
+                                                            class="browser-default search-field"
+                                                            aria-label="Search box" />
+                                                    </li> -->
+
+                                                    <li>
+                                                        <div class="m-l-10" matTooltip="Refresh">
+                                                            <button mat-mini-fab color="primary" (click)="getTodaysData()">
+                                                                <mat-icon class="col-white">refresh</mat-icon>
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                    <li class="dropdown m-l-5">
+                                                        <mat-form-field>
+                                                            <mat-label>Filter By </mat-label>
+                                                            <mat-select [(value)]="selected"  (selectionChange)="onSelectionChange()">
+                                                                <mat-option value="current_date"><b>Today</b></mat-option>
+                                                                <mat-option value="farmer_no"><b>Farmer Number</b></mat-option>
+                                                                <mat-option value="sd"><b>Specific Date</b></mat-option>
+                                                                <mat-option value="dr"><b>Date Range</b>
+                                                                </mat-option><mat-option value="pul"><b>Pick-Up
+                                                                        Location</b></mat-option>
+                                                                <mat-option value="route"><b>Route
+                                                                    </b></mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </li>
+                                                    <li class="dropdown">
+                                                        <form [formGroup]="form">
+                                                            <mat-form-field class="m-l-5" *ngIf="selected == 'sd'">
+                                                                <input matInput [matDatepicker]="picker1"
+                                                                    (dateChange)="filterByDate()"
+                                                                    placeholder="Choose a date" formControlName="date">
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [for]="picker1"></mat-datepicker-toggle>
+                                                                <mat-datepicker #picker1></mat-datepicker>
+                                                            </mat-form-field>
+
+                                                            <mat-form-field class="m-l-5" *ngIf="selected == 'dr'">
+                                                                <input matInput [matDatepicker]="picker2"
+                                                                    placeholder="From Date" formControlName="fromDate">
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [for]="picker2"></mat-datepicker-toggle>
+                                                                <mat-datepicker #picker2></mat-datepicker>
+                                                            </mat-form-field>
+                                                            <mat-form-field class="m-l-0" *ngIf="selected == 'dr'">
+                                                                <input matInput [matDatepicker]="picker3"
+                                                                    (dateChange)="filterByDate()" placeholder="To Date"
+                                                                    formControlName="toDate">
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [for]="picker3"></mat-datepicker-toggle>
+                                                                <mat-datepicker #picker3></mat-datepicker>
+                                                            </mat-form-field>
+
+                                                            <div *ngIf="selected == 'pul'" class="col-md-12">
+                                                                <mat-form-field class="m-l-5">
+                                                                    <input matInput (dateChange)="filterByDate()"
+                                                                        placeholder="select pick up location"
+                                                                        formControlName="pickuplocation">
+                                                                    <mat-icon matSuffix
+                                                                        (click)="selectpickUpLocation()">search
+                                                                    </mat-icon>
+                                                                </mat-form-field>
+
+                                                                <mat-form-field class="m-l-5">
+                                                                    <input matInput [matDatepicker]="picker2"
+                                                                        placeholder="From Date" formControlName="fromDate">
+                                                                    <mat-datepicker-toggle matSuffix
+                                                                        [for]="picker2"></mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker2></mat-datepicker>
+                                                                </mat-form-field>
+                                                                <mat-form-field class="m-l-5">
+                                                                    <input matInput [matDatepicker]="picker3"
+                                                                        (dateChange)="filterByPickUpLoction()" placeholder="To Date"
+                                                                        formControlName="toDate">
+                                                                    <mat-datepicker-toggle matSuffix
+                                                                        [for]="picker3"></mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker3></mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div>
+
+                                                            <mat-form-field class="m-l-5" *ngIf="selected == 'route'">
+                                                                <input matInput placeholder="select route"
+                                                                    formControlName="route">
+                                                                <mat-icon matSuffix (click)="selectRoute()">search
+                                                                </mat-icon>
+                                                            </mat-form-field>
+
+                                                            <div *ngIf="selected == 'farmer_no'">
+                                                              <mat-form-field class="m-l-5" *ngIf="selected == 'farmer_no'">
+                                                                <input matInput
+                                                                    placeholder="Enter Farmer Number"
+                                                                    formControlName="farmer_no">
+                                                                <mat-icon matSuffix>search
+                                                                </mat-icon>
+                                                            </mat-form-field>
+                                                                <mat-form-field class="m-l-5">
+                                                                    <input matInput [matDatepicker]="picker2"
+                                                                        placeholder="From Date" formControlName="fromDate">
+                                                                    <mat-datepicker-toggle matSuffix
+                                                                        [for]="picker2"></mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker2></mat-datepicker>
+                                                                </mat-form-field>
+                                                                <mat-form-field class="m-l-5">
+                                                                    <input matInput [matDatepicker]="picker3"
+                                                                        (dateChange)="filterByFarmerNo()" placeholder="To Date"
+                                                                        formControlName="toDate">
+                                                                    <mat-datepicker-toggle matSuffix
+                                                                        [for]="picker3"></mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker3></mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div>
+
+                                                        </form>
+                                                    </li>
+                                                    <span class="spacer"></span>
+                                                    <li>
+                                                        <div class="export-button m-l-10" matTooltip="XLSX">
+                                                            <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                                                                exporter.exportTable('xlsx', {
+                                                                fileName: 'Collections - '  + currentDate,
+                                                                sheet: 'sheet1'
+                                                                })" />
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <!-- <div class="col-2">
+                                                <ul class="header-buttons">
+                                                    <li>
+                                                        <div class="export-button m-l-10" matTooltip="XLSX">
+                                                            <img src="assets/images/icons/xlsx.png" alt="" (click)="
+                                                                exporter.exportTable('xlsx', {
+                                                                fileName: 'Collections - '  + currentDate,
+                                                                sheet: 'sheet1'
+                                                                })" />
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <mat-table #table matTableExporter [dataSource]="dataSource" matSort
+                                        class="mat-cell" #exporter="matTableExporter">
+                                        <!-- Checkbox Column -->
+                                        <ng-container matColumnDef="select">
+                                            <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
+                                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                                    [checked]="selection.hasValue() && isAllSelected()"
+                                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                                    [ngClass]="'tbl-checkbox'">
+                                                </mat-checkbox>
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
+                                                <mat-checkbox (click)="$event.stopPropagation()"
+                                                    (change)="$event ? selection.toggle(row) : null"
+                                                    [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
+                                                </mat-checkbox>
+                                            </mat-cell>
+                                        </ng-container>
+                                        <!-- ID Column -->
+                                        <ng-container matColumnDef="id">
+                                            <mat-header-cell class="table-img tbl-col-width-per-8" *matHeaderCellDef
+                                                mat-sort-header>#</mat-header-cell>
+                                            <mat-cell class="table-img tbl-col-width-per-8"
+                                                *matCellDef="let element; let i = index" [class.odd-row]="i % 2"
+                                                [class.even-row]="!(i % 2)">{{i + 1}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="farmer_no">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                                class="column-wrap tbl-col-width-per-8">Farmer No.</mat-header-cell>
+                                            <mat-cell *matCellDef="let response;let i = index" [class.odd-row]="i % 2"
+                                                [class.even-row]="!(i % 2)" class="column-nonwrap tbl-col-width-per-8">
+                                                {{response.farmer_no}}
+                                            </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="farmer">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                                class="column-nowrap tbl-col-width-per-15">Farmer</mat-header-cell>
+                                            <mat-cell *matCellDef="let response;let i = index" [class.odd-row]="i % 2"
+                                                [class.even-row]="!(i % 2)" class="column-wrap tbl-col-width-per-15">
+                                                {{response.farmer}}
+                                            </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="quantity">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                                class="column-nowrap tbl-col-width-per-12">Qty (kgs)</mat-header-cell>
+                                            <mat-cell *matCellDef="let response;let i = index" [class.odd-row]="i % 2"
+                                                [class.even-row]="!(i % 2)" class="column-nowrap tbl-col-width-per-12">
+                                                {{response.quantity | number :'1.2-2'}}
+                                            </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="session">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                                class="column-nowrap tbl-col-width-per-8">Session</mat-header-cell>
+                                            <mat-cell *matCellDef="let response;let i = index" [class.odd-row]="i % 2"
+                                                [class.even-row]="!(i % 2)" class="column-nowrap tbl-col-width-per-8">
+                                                {{response.session === "Session 1" ? "Morning" : (response.session === "Session 2" ? "Afternoon" : "Evening")}}
+                                            </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="collection_date">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                                class="column-nowrap tbl-col-width-per-9">Date
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let response;let i = index" [class.odd-row]="i % 2"
+                                                [class.even-row]="!(i % 2)" class="column-wrap tbl-col-width-per-9">
+                                                {{stripTimezoneOffset(response.collection_date) | date: "MMMM d, y hh:mm:a" }}
+                                            </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="route">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                                class="column-nowrap tbl-col-width-per-12">Route</mat-header-cell>
+                                            <mat-cell *matCellDef="let response;let i = index" [class.odd-row]="i % 2"
+                                                [class.even-row]="!(i % 2)" class="column-wrap tbl-col-width-per-12">
+                                                {{response.route}}
+                                            </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="pickUpLocation">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                                class="column-nowrap tbl-col-width-per-12">MCC
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let response;let i = index" [class.odd-row]="i % 2"
+                                                [class.even-row]="!(i % 2)" class="column-nowrap tbl-col-width-per-12">
+                                                {{response.pickUpLocation }}
+                                            </mat-cell>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="action">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-cell *matCellDef="let response;let i = index" [class.odd-row]="i % 2"
+                                                [class.even-row]="!(i % 2)"
+                                                (contextmenu)="onContextMenu($event, response)">
+                                                <button mat-icon-button color="primary"
+                                                    (click)="$event.stopPropagation()"
+                                                    (click)="viewFarmerCollections(response)" class="tbl-action-btn">
+                                                    <app-feather-icons matTooltip="View Farmer Collections"
+                                                        [icon]="'eye'" [class]="'tbl-fav-eye'"></app-feather-icons>
+                                                </button>
+                                                <button mat-icon-button color="primary"
+                                                    (click)="$event.stopPropagation()" (click)="edit(response)"
+                                                    class="tbl-action-btn">
+                                                    <app-feather-icons matTooltip="Edit Collections" [icon]="'edit'"
+                                                        [class]="'tbl-fav-edit'"></app-feather-icons>
+                                                </button>
+                                                <button mat-icon-button color="primary"
+                                                    (click)="$event.stopPropagation()" (click)="return(response)"
+                                                    class="tbl-action-btn">
+                                                    <app-feather-icons matTooltip="Return Collections" [icon]="'delete'"
+                                                        [class]="'tbl-fav-delete'"></app-feather-icons>
+                                                </button>
+                                            </mat-cell>
+                                        </ng-container>
+
+                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                        <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                                        <mat-row *matRowDef="let row; columns: displayedColumns"
+                                            (click)="countyDetailsCall(county)" [style.cursor]="'pointer'" matRipple>
+                                        </mat-row>
+                                        <mat-cell *matNoDataRow colspan="4">
+                                            No data matching the filter "{{ input.value }}"</mat-cell>
+                                    </mat-table>
+
+                                    <!-- Loading spinner -->
+                                    <div *ngIf="isLoading" class="tbl-spinner">
+                                        <mat-progress-spinner color="primary" [diameter]="50" mode="indeterminate">
+                                        </mat-progress-spinner>
+                                    </div>
+
+                                    <div class="tbl-spinner" *ngIf="!isLoading && !isdata">
+                                        <h4>0 Records Found</h4>
+                                    </div>
+
+                                    <mat-paginator #paginator [pageIndex]="0" [pageSize]="5"
+                                        [pageSizeOptions]="[5, 10, 25, 100,200,500]" showFirstLastButtons>
+                                    </mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Milk Collection Map" class="m-3">
+                <form [formGroup]="mapForm">
+                    <div class="row card down">
+                        <div class="row col-8">
+                            <div class="col-4 m-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Select Collector</mat-label>
+                                    <mat-select formControlName="collectorId" required>
+                                        <mat-option *ngFor="let collector of collectors" [value]="collector.id">
+                                            {{ collector.username }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="mapForm.get('collectorId').hasError('required')">
+                                        Milk Collector is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-4 m-2">
+                                <mat-form-field class="m-l-10" appearance="outline">
+                                    <mat-label>Collection Date</mat-label>
+                                    <input matInput [matDatepicker]="picker4" formControlName="date"
+                                        (dateChange)="getCoordinates()">
+                                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker4></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row body">
+                    <agm-map #map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom"
+                        [restriction]="restriction" *ngIf="isCoordinates">
+                        <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude"
+                            [longitude]="marker.longitude" [label]="marker.route+' - '+marker.quantity"></agm-marker>
+                    </agm-map>
+
+                    <agm-map #map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom"
+                        [restriction]="restriction" *ngIf="!isCoordinates">
+                    </agm-map>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</section>

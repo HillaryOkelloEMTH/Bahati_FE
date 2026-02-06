@@ -1,0 +1,30 @@
+<div class="container">
+  <h3 mat-dialog-title>
+    Do you want to proceed deleting the role: ROLE_USER ?
+  </h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <!--Gift Icon-->
+      <div class="col text-center">
+        <i class="far fa-times-circle fa-6x col-red"></i>
+      </div>
+      <!--Modal Text-->
+
+      <div class="col-12">
+        <div class="col text-center my-3"><h4>Access Rights</h4></div>
+        <ul class="list-group">
+          <li class="list-group-item">Set Bank Parameters</li>
+          <li class="list-group-item">Edit Bank Parameters</li>
+          <li class="list-group-item">View Bank PArameters</li>
+          <li class="list-group-item">Add Customer Configurations</li>
+          <li class="list-group-item">Edit Customer Configurations</li>
+          <li class="list-group-item">View Customer Configurations</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <mat-dialog-actions align="end" class="mb-1">
+    <button mat-flat-button color="warn">Delete</button>
+    <button mat-flat-button (click)="onClick()" tabindex="-1">Cancel</button>
+  </mat-dialog-actions>
+</div>

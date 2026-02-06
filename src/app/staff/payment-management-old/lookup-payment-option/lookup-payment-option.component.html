@@ -1,0 +1,33 @@
+<div class="lookupContainer" style="padding: 24px; max-width: 600px;">
+  <div class="modalHeader" style="display: flex; justify-content: space-between; align-items: center;">
+    <h2 class="title" style="margin: 0;">Payment Option Details</h2>
+    <button mat-icon-button (click)="close()" aria-label="Close dialog" class="closeBtn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content style="padding-top: 16px;">
+    <form [formGroup]="paymentForm" class="formContent" autocomplete="off" novalidate>
+      <mat-form-field appearance="outline" class="fullWidth" style="margin-bottom: 16px;">
+        <mat-label>Category Name</mat-label>
+        <input matInput formControlName="categoryName" readonly />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="fullWidth" style="margin-bottom: 16px;">
+        <mat-label>Payment Option</mat-label>
+        <textarea matInput formControlName="name" rows="3" readonly></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="fullWidth" style="margin-bottom: 16px;">
+        <mat-label>Created On</mat-label>
+        <input matInput formControlName="createdOn" readonly />
+      </mat-form-field>
+
+      <mat-checkbox formControlName="active" disabled style="margin-top: 8px;">Active</mat-checkbox>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="actions" style="margin-top: 16px;">
+    <button mat-stroked-button color="primary" (click)="close()">Close</button>
+  </mat-dialog-actions>
+</div>

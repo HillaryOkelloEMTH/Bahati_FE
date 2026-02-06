@@ -1,0 +1,63 @@
+<div class="addContainer">
+  <div *ngIf="Data" class="contact-details">
+    <div class="modalHeader">
+      <div class="contact-details-name mb-1">Verify Account</div>
+      <button
+        mat-icon-button
+        (click)="dialogRef.close()"
+        aria-label="Close dialog"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+        <div style="margin-left: 25px;">
+          <mat-card-content>
+              <div class="row mt-1" style="width: 98%">
+                <div class="col-5 m-b-10">Username:</div>
+                <div class="col-7 pro-left m-b-10">{{ Data.username }}</div>
+                <div class="col-5 m-b-10">Email:</div>
+                <div class="col-7 pro-left m-b-10">{{ Data.email }}</div>          
+              </div>
+            </mat-card-content>
+
+        </div>
+      
+      <form class="register-form m-4" [formGroup]="statusForm">
+          <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Status</mat-label>
+                <!-- <input matInput formControlName="status" required /> -->
+                <mat-select formControlName="action" required>
+                  <mat-option *ngFor="let statusType of statusTypes" [value]="statusType">
+                    {{ statusType }}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="statusForm.get('action').hasError('required')"
+                >
+                Status is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+              <div class="example-button-row" align="end">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  [disabled]="!statusForm.valid || !canVerify"
+                  (click)="changeStatus()"
+                >
+                  Submit
+                </button>
+                <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>

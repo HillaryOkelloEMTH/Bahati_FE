@@ -1,0 +1,92 @@
+<div class="content-block bg">
+    <div class="row clearfix bg">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="modalHeader">
+                    <div class="editRowModal">
+                        <div class="modalHeader clearfix">
+                            <div class="modalHeader clearfix">
+                                <div class="modal-about">
+                                    <div class="font-weight-bold p-t-5 font-17">
+                                        Sale New Item
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <div mat-dialog-content>
+                    <form class="register-form m-4" [formGroup]="allocateform">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+
+                                <mat-form-field class="example-full-width mb-1" appearance="outline">
+                                    <mat-label>Select Product Type</mat-label>
+                                    <mat-select formControlName="type" required>
+                                        <mat-option value="Good">Good</mat-option>
+                                        <mat-option value="Service">Service</mat-option> </mat-select>
+                                    <mat-error *ngIf="allocateform.get('type').hasError('required')">
+                                        Type Is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Select Product</mat-label>
+                                    <mat-select formControlName="productId" required>
+                                        <mat-option *ngFor="let collector of products" [value]="collector.id">
+                                            {{ collector.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="allocateform.get('productId').hasError('required')">
+                                        Product is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Select Farmer</mat-label>
+                                    <mat-select formControlName="farmerNo" required>
+                                        <mat-option *ngFor="let collector of farmers" [value]="collector.farmerNo">
+                                            {{ collector.username }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="allocateform.get('farmerNo').hasError('required')">
+                                        Farmer is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <!-- *ngIf="selected == 'Good'" -->
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2" >
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Quantity</mat-label>
+                                    <input matInput formControlName="quantity" required />
+                                    <mat-error *ngIf="allocateform.get('quantity').hasError('required')">
+                                        Quantity is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                    <div class="example-button-row">
+                                        <button mat-raised-button color="warn" (click)="onClick()" tabindex="-1">
+                                            Cancel
+                                        </button>
+                                        <button mat-raised-button color="primary" [disabled]="!allocateform.valid"
+                                            (click)="onSubmit()">
+                                            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                            <b>Submit</b>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>

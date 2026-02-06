@@ -1,0 +1,75 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Roles Management'" [items]="['User']" [active_item]="'Roles'"></app-breadcrumb>
+    </div>
+
+
+    <form class="register-form m-4" [formGroup]="apiFormData">
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>{{function_type}} Role</h2>
+          </div>
+          <div class="body">
+           
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Role Name</mat-label>
+                    <input matInput formControlName="role" required />
+                    <mat-error *ngIf="apiFormData.get('role').hasError('required')">
+                      Role name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <h5 class="theBasicActions"><strong>Select Privileges</strong></h5>
+              </div>
+             
+            -->
+            <!-- <div class="header">
+              <h2>Select Privileges</h2>
+            </div> -->
+            <div *ngIf="accessRightsLoaded" class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-checkbox class="example-margin" [disabled]="this.isDisabled" (change)="toggleAll($event.checked)" [checked]="allSelected()">
+                  Check All Privileges
+                </mat-checkbox>
+              </div>
+            </div>
+            <div *ngIf="accessRightsLoaded" class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <ul class="list-group-horizontal d-flex flex-wrap list-style">
+                    <section class="col-xl-2 col-lg-3 col-md-12 col-sm-12 mb-2" *ngFor="let item of displayArray; let i = index">
+                      <mat-checkbox class="example-margin" [disabled]="this.isDisabled" [checked]="item.selected" (change)="onChange($event, i)">
+                        {{ item.name }}
+                      </mat-checkbox>
+                    </section>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-between align-items-center">
+              <div class="col-sm-12">
+                <button mat-raised-button type="button" class="bg-primary text-white" routerLink="/admin/roles/view">
+                  BACK
+                </button>
+                <button *ngIf="!hideBtn" (click)="onSubmit()" class="pull-right" mat-raised-button [color]="btnColor">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>{{ btnText }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+    
+  </div>
+</section> 

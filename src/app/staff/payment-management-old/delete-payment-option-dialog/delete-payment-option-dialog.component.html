@@ -1,0 +1,42 @@
+<div class="content-block bg">
+  <div class="card">
+    <div class="modalHeader d-flex justify-content-between align-items-center">
+      <div class="font-weight-bold font-17 ms-2">
+        Delete Payment Options - <span class="text-primary">{{ data.categoryName }}</span>
+      </div>
+      <button mat-icon-button (click)="onClose()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div mat-dialog-content>
+      <p>Select a payment option to delete:</p>
+
+      <div *ngIf="options.length > 0; else noOptions">
+        <mat-list>
+          <mat-list-item *ngFor="let option of options" class="d-flex justify-content-between align-items-center">
+            <span>{{ option.name }}</span>
+            <button
+              mat-icon-button
+              color="warn"
+              aria-label="Delete payment option"
+              (click)="onDeleteOption(option)"
+              style="color: red;"
+              matTooltip="Delete this option"
+            >
+              <app-feather-icons icon="trash-2"></app-feather-icons>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <ng-template #noOptions>
+        <div class="text-muted mt-2">No payment options available for this category.</div>
+      </ng-template>
+    </div>
+
+    <div mat-dialog-actions class="d-flex justify-content-end">
+      <button mat-button (click)="onClose()">Close</button>
+    </div>
+  </div>
+</div>

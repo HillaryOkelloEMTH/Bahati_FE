@@ -1,0 +1,168 @@
+<section class="content" role="main">
+  <div class="content-block">
+    <div class="block-header">
+      <h2 id="payment-options-title">Payment Options</h2>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/staff">Payment Management</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Payment Options</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="card">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="boxs mail_listing">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="body">
+                <div class="table-responsive">
+                  <div class="materialTableHeader">
+                    <div class="row">
+                      <div class="col-8">
+                        <ul class="header-buttons-left ms-0">
+                          <li class="dropdown">
+                            <h2>Payment Options</h2>
+                          </li>
+                          <li class="dropdown m-l-20">
+                            <label for="search-input" class="sr-only">Search Payment Options</label>
+                            <i class="material-icons search-icon" aria-hidden="true">search</i>
+                            <input id="search-input" placeholder="Filter..." type="text" (keyup)="applyFilter($event)" #filter class="browser-default search-field" aria-label="Filter payment options">
+                          </li>
+                          <li>
+                            <div class="m-l-10" matTooltip="Add New Payment Option">
+                              <button mat-mini-fab color="primary" (click)="openAddDialog()" aria-label="Add new payment option">
+                                <mat-icon>add</mat-icon>
+                              </button>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="m-l-10" matTooltip="Refresh Table">
+                              <button mat-mini-fab color="primary" (click)="loadPaymentOptions()" aria-label="Refresh payment options">
+                                <mat-icon>refresh</mat-icon>
+                              </button>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-4">
+                        <ul class="header-buttons">
+                          <li>
+                            <button mat-icon-button matTooltip="Export to XLSX" (click)="exporter.exportTable('xlsx', {fileName: 'all-farmers', sheet: 'sheet1'})">
+                              <img src="assets/images/icons/xlsx.png" alt="XLSX">
+                            </button>
+                          </li>
+                          <li>
+                            <button mat-icon-button matTooltip="Export to CSV" (click)="exporter.exportTable('csv', {fileName: 'all-farmers'})">
+                              <img src="assets/images/icons/csv.png" alt="CSV">
+                            </button>
+                          </li>
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="JSON">
+                              <img src="assets/images/icons/json.png" alt=""
+                                   (click)="exporter.exportTable('json')" />
+                            </div>
+                          </li>
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="TXT">
+                              <img src="assets/images/icons/txt.png" alt=""
+                                   (click)="exporter.exportTable('txt')" />
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <mat-table #table matTableExporter [dataSource]="optionsDataSource" matSort class="mat-cell" #exporter="matTableExporter" role="grid" aria-labelledby="payment-options-title">
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header aria-sort="none">Id</mat-header-cell>
+                      <mat-cell *matCellDef="let option; let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">{{ getRowId(i) }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Category Name Column -->
+                    <ng-container matColumnDef="categoryName">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header aria-sort="none">Category Name</mat-header-cell>
+                      <mat-cell *matCellDef="let option; let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">{{ option.categoryName }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Payment Options Column -->
+                    <!-- Payment Options Column -->
+                    <ng-container matColumnDef="name">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header aria-sort="none">Payment Options</mat-header-cell>
+                      <mat-cell *matCellDef="let option; let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">
+                        <ng-container *ngIf="option.name && option.name.length; else noOptions">
+                          <div *ngFor="let opt of option.name.slice(0, 2)" style="display: block; margin-bottom: 4px;">{{ opt }}</div>
+                        </ng-container>
+                        <ng-template #noOptions>N/A</ng-template>
+                      </mat-cell>
+                    </ng-container>
+
+
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="active">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header aria-sort="none">Status</mat-header-cell>
+                      <mat-cell *matCellDef="let option; let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">
+                        <div *ngIf="option.active; else inactive">
+                          <span class="badge badge-pill badge-primary col-green" (click)="toggleStatus(option)" role="button" tabindex="0" (keydown.enter)="toggleStatus(option)" aria-label="Toggle to Inactive">
+                            Active
+                          </span>
+                        </div>
+                        <ng-template #inactive>
+                          <div>
+                            <span class="badge badge-pill badge-primary col-red" (click)="toggleStatus(option)" role="button" tabindex="0" (keydown.enter)="toggleStatus(option)" aria-label="Toggle to Active">
+                              Inactive
+                            </span>
+                          </div>
+                        </ng-template>
+                      </mat-cell>
+                    </ng-container>
+
+                    <!-- Created On Column -->
+                    <ng-container matColumnDef="createdOn">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header aria-sort="none">Created On</mat-header-cell>
+                      <mat-cell *matCellDef="let option; let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">{{ option.createdOn ? (option.createdOn | date: 'short') : 'N/A' }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Actions Column -->
+                    <ng-container matColumnDef="action">
+                      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                      <mat-cell *matCellDef="let option; let i = index" [class.odd-row]="i % 2" [class.even-row]="!(i % 2)" (click)="$event.stopPropagation()">
+                        <button mat-icon-button color="primary" (click)="editOption(option)" matTooltip="Edit farmer">
+                          <app-feather-icons icon="edit"></app-feather-icons>
+                        </button>
+                        <button mat-icon-button color="primary" (click)="lookupPaymentOption(option)"  matTooltip="View Farmer Details">
+                          <app-feather-icons icon="eye"></app-feather-icons>
+                        </button>
+                        <button
+                          mat-icon-button
+                          color="accent"
+                          (click)="openDeleteDialog(option.categoryId, option.categoryName)"
+                          matTooltip="Delete payment options"
+                          style="color: red;"
+                        >
+                          <app-feather-icons icon="trash-2"></app-feather-icons>
+                        </button>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="optionColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: optionColumns" matRipple role="row"></mat-row>
+                    <tr mat-row *matNoDataRow>
+                      <td class="mat-cell" [attr.colspan]="optionColumns.length" role="alert">
+                        {{ optionsDataSource.data.length === 0 ? 'No payment options available. Add a new option to get started.' : 'No payment options match the filter.' }}
+                      </td>
+                    </tr>
+                  </mat-table>
+                  <div *ngIf="isLoading" class="tbl-spinner" role="status" aria-live="polite">
+                    <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate" aria-label="Loading payment options"></mat-progress-spinner>
+                  </div>
+                  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20, 50, 100]" aria-label="Select page of payment options"></mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

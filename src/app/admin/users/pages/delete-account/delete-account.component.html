@@ -1,0 +1,47 @@
+<div class="container">
+  <h3 mat-dialog-title>Are you sure?</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <!--Gift Icon-->
+      <div class="col text-center"> <i class="far fa-times-circle fa-6x col-red"></i> </div>
+      <!--Modal Text-->
+      <div class="col-12">
+        <dl class="dl-horizontal">
+          <dt class="pull-left me-2">Username:</dt>
+          <dd>{{ account.username }}</dd>
+          <dt class="pull-left me-2">Firstname:</dt>
+          <dd> {{ account.firstname }}</dd>
+          <dt class="pull-left me-2">Lastname:</dt>
+          <dd> {{ account.lastname }}</dd>
+          <dt class="pull-left me-2">Email:</dt>
+          <dd> {{ account.email }}</dd> 
+          <dt class="pull-left me-2">Phonenumber:</dt>
+          <dd> {{ account.phonenumber }}</dd> 
+          <dt class="pull-left me-2">Role:</dt>
+          <dd> {{ account.roles[0].name }}</dd>
+          <dt class="pull-left me-2">Account Active:</dt>
+          <dd>
+            <div *ngIf="account.status == 'Locked'">
+              <span class="badge badge-pill badge-primary col-purple">
+                {{ "Locked" }}</span>
+            </div>
+            <div *ngIf="account.status == 'Active'">
+              <span class="badge badge-pill badge-primary col-green">
+                {{ "Active" }}</span>
+            </div>
+            <div *ngIf="account.status == 'Deleted'">
+              <span class="badge badge-pill badge-primary col-red">
+                {{ "Deleted" }}</span>
+            </div>
+          </dd> 
+        </dl>
+      </div>
+    </div>
+  </div>
+  <mat-dialog-actions align="end" class="mb-1">
+    <button mat-flat-button color="warn" [class.auth-spinner]="loading"  (click)="confirmDelete()">
+      Delete
+    </button>
+    <button mat-flat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+  </mat-dialog-actions>
+</div>

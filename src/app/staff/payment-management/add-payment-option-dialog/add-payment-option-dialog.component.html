@@ -1,0 +1,65 @@
+<div class="content-block bg">
+  <div class="row clearfix bg">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="modalHeader">
+          <div class="modal-about">
+            <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+              Add Payment Option
+            </div>
+          </div>
+          <button mat-icon-button (click)="onCancel()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div mat-dialog-content>
+          <form class="register-form m-4" [formGroup]="addPaymentForm">
+            <div class="row">
+              <div class="col-xl-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>
+                    Payment Options (e.g., {{ categoryExamples[addPaymentForm.get('categoryName')?.value] || 'Select a category' }})
+                  </mat-label>
+                  <input matInput formControlName="name" required />
+                  <mat-error *ngIf="addPaymentForm.get('name')?.hasError('required')">
+                    Payment Options is required
+                  </mat-error>
+                  <mat-error *ngIf="addPaymentForm.get('name')?.hasError('maxlength')">
+                    Maximum 100 characters
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-xl-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Category Name</mat-label>
+                  <mat-select formControlName="categoryName" required>
+                    <mat-option *ngFor="let category of categories" [value]="category.name">
+                      {{ category.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="addPaymentForm.get('categoryName')?.hasError('required')">
+                    Category Name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-xl-12 mb-2">
+                <mat-checkbox formControlName="active">Active</mat-checkbox>
+              </div>
+              <div class="col-xl-12 mb-2">
+                <div class="example-button-row">
+                  <button mat-raised-button color="warn" (click)="onCancel()" tabindex="-1">
+                    Cancel
+                  </button>
+                  <button mat-raised-button color="primary" [disabled]="!addPaymentForm.valid || isLoading" (click)="onSubmit()">
+                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
+                    <b>Submit</b>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

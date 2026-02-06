@@ -1,0 +1,42 @@
+.force-compact-form {
+  // Ensure the field respects our sizing
+  line-height: 1;
+  font-size: 13px;
+  height: 36px !important;
+  min-height: 36px !important;
+
+  .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+    margin-top: -8px; // adjusts vertical alignment
+  }
+
+  .mat-form-field-flex {
+    height: 36px !important;
+    align-items: center !important;
+  }
+
+  .mat-form-field-infix {
+    padding: 0 8px !important;
+    border-top: 0 !important;
+    height: 36px !important;
+  }
+
+  .mat-input-element,
+  .mat-select-trigger,
+  .mat-select-value {
+    height: 36px !important;
+    line-height: 36px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .mat-form-field-label {
+    font-size: 12px;
+    transform: translateY(-1.2em) scale(0.75); // prevents label overlap
+  }
+
+  .mat-form-field-outline {
+    top: 0 !important;
+  }
+}

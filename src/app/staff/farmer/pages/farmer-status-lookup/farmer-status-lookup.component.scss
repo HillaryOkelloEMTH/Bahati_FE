@@ -1,0 +1,10 @@
+@import "/src/assets/scss/ui/_stepper.scss";
+.faded-bg-button {
+  background-color: rgba(76, 175, 80, 0.1); // soft green background
+  border-radius: 8px;                      // optional: rounded corners
+  transition: background-color 0.3s ease;
+}
+
+.faded-bg-button:hover {
+  background-color: rgba(76, 175, 80, 0.15); // slightly darker on hover
+}

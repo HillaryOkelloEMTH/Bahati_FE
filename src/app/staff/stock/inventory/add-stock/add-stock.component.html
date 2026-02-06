@@ -1,0 +1,118 @@
+<div class="content-block bg">
+    <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Add New Product</h2>
+                </div>
+                <div class="body">
+                    <form [formGroup]="productsForm" class="m-4">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Product Name</mat-label>
+                                    <input formControlName="name" matInput required />
+                                    <mat-error *ngIf="productsForm.get('name').hasError('required')">
+                                        Product Name is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Description</mat-label>
+                                    <input formControlName="description" matInput />
+                                    <mat-error *ngIf="productsForm.get('description').hasError('required')">
+                                        Description is required
+                                    </mat-error>
+                                </mat-form-field>
+                              
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+
+
+                                <mat-form-field class="example-full-width mb-1" appearance="outline">
+                                    <mat-label>Select Product Type</mat-label>
+                                    <mat-select formControlName="type" required>
+                                      <mat-option value="Good">Good</mat-option>
+                                      <mat-option value="Service">Service</mat-option>                                    </mat-select>
+                                    <mat-error *ngIf="productsForm.get('type').hasError('required')">
+                                     Type Is required
+                                    </mat-error>
+                                  </mat-form-field>
+
+                           
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Product Category</mat-label>
+                                    <mat-icon matSuffix (click)="pickCategory()" color="primary"
+                                        matTooltip="Click To Select Product Category">search</mat-icon>
+                                    <input matInput formControlName="categoryName" required readonly />
+                                    <mat-error *ngIf="productsForm.get('categoryName').hasError('required')">
+                                        Product Category is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Number Of Items</mat-label>
+                                    <input matInput formControlName="stock"  />
+                                    
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Price Category</mat-label>
+                                    <mat-select formControlName="priceType">
+                                        <mat-option value="Common">Common</mat-option>
+                                        <mat-option value="Specific">Specific</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Buying Price</mat-label>
+                                    <input formControlName="price" matInput />
+                                    <mat-error *ngIf="productsForm.get('price').hasError('required')">
+                                        Buying price is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                    <mat-label>Selling Price</mat-label>
+                                    <input formControlName="salePrice" matInput required />
+                                    <mat-error *ngIf="productsForm.get('salePrice').hasError('required')">
+                                        Selling price is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                           
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <div class="example-button-row" align="end">
+                                    <button mat-raised-button color="warn" (click)="onCancel()" tabindex="-1">
+                                        Cancel
+                                    </button>
+                                    <button mat-raised-button color="primary" [disabled]="!productsForm.valid"
+                                        (click)="onSubmit()">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        <b>Submit</b>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

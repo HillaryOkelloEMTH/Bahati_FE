@@ -1,0 +1,83 @@
+<div class="addContainer">
+    <div class="contact-details">
+        <div class="modalHeader">
+            <div class="contact-details-name mb-1">Choose Milk Collector</div>
+            <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <div mat-dialog-content>
+            <div class="table-responsive m-t-5">
+                <div class="body">
+                    <div class="table-responsive">
+                        <div class="row" style="background-color: rgba(163, 159, 159, 0.297); margin: 5px;">
+
+                            <div class="col-6 d-flex align-items-center">
+                                <h6 style="margin: 5px;"><strong>Milk Collectors</strong></h6>
+                            </div>
+                            <div class="col-6">
+                                <div id="plist" class="people-list">
+                                    <div class="form-line m-b-10 m-t-10 m-l-2 m-r-2">
+                                        <input placeholder="Filter..." type="text" (keyup)="applyFilter($event)" #filter
+                                            class="form-control" placeholder="Search..." />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
+                            #exporter="matTableExporter">
+                            <ng-container matColumnDef="select">
+                                <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
+                                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                        [ngClass]="'tbl-checkbox'">
+                                    </mat-checkbox>
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
+                                    </mat-checkbox>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="username">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header
+                                    class="column-nowrap psl-3 tbl-col-width-per-40">
+                                    Username
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-40">
+
+                                    {{ row.username }}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="email">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header
+                                    class="column-nowrap psl-3 tbl-col-width-per-40">
+                                    Email Address
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" class="column-nowrap psl-3 tbl-col-width-per-40">
+                                    {{ row.email }}
+                                </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns" [style.cursor]="'pointer'"
+                                matRipple (click)="onSelectRow(row)">
+                            </mat-row>
+                            <mat-cell *matNoDataRow colspan="4"> No data matching the filter "{{ input.value
+                                }}"
+                            </mat-cell>
+                        </mat-table>
+                        <!-- Loading spinner -->
+                        <div *ngIf="isLoading" class="tbl-spinner">
+                            <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                            </mat-progress-spinner>
+                        </div>
+                        <mat-paginator [pageSize]="5" [pageSizeOptions]="[2, 5, 10, 20, 30, 40, 50, 100]"
+                            aria-label="Select page of users"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

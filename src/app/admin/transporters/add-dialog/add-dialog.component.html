@@ -1,0 +1,53 @@
+<div class="content-block bg">
+    <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <!-- dialog header -->
+                 <div class="header">
+                    <h2>Add Route Transporter</h2>
+                 </div>
+
+                 <!-- dialog body -->
+                  <div class="body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Route</mat-label>
+                                    <mat-select formControlName="routeId">
+                                        <mat-option *ngFor="let route of routes" [value]="route.id">{{route.route}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="">route is required</mat-error>
+                                </mat-form-field>
+                            </div>
+    
+                            <div class="col-xl-6 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Transporter</mat-label>
+                                    <mat-select formControlName="username">
+                                        <mat-option *ngFor="let user of users" [value]="user.username">
+                                            {{user.username}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- buttons -->
+                         <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <div class="example-button-row" align="end">
+                                    <button mat-raised-button color="warn" (click)="cancel()" tabindex="-1">Cancel</button>
+                                    <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="submit()">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        <b>Submit</b>
+                                    </button>
+                                </div>
+                            </div>
+                         </div>
+                    </form>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>

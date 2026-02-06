@@ -1,0 +1,76 @@
+<div class="content-block bg">
+    <div class="row clearfix bg">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="modalHeader">
+                    <div class="editRowModal">
+                        <div class="modalHeader clearfix">
+                            <div class="modalHeader clearfix">
+                                <div class="modal-about">
+                                    <div class="font-weight-bold p-t-5 font-20">
+                                        Milk Deliveries Bulk Upload
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <div mat-dialog-content>
+                    <form class="register-form m-4" [formGroup]="uploadForm">
+                        <div class="row">
+                            <h5>Upload an excel file with the following column headers in order: 
+                                <span>farmer </span> <span>quantity </span> <span>date </span>	<span>session</span></h5>
+                            <h5>Date example: <span>{{currentDate}}</span></h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                                <input  formControlName="file" required type="file" (change)="onFileChange($event)"/>
+                                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Excel File</mat-label>
+                                    <input formControlName="file" required type="file"/>
+                                    <mat-error *ngIf="uploadForm.get('file').hasError('required')">
+                                        Excel File
+                                    </mat-error>
+                                </mat-form-field> -->
+                            </div>
+                        <div class="row">
+
+                            <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Select Route</mat-label>
+                                    <mat-select formControlName="route" placeholder="Choose an option" [disabled]>
+                                        <mat-option *ngFor="let route of routes" [value]="route.route">
+                                            {{ route.route }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="editForm.get('route').hasError('required')">
+                                        Route is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div> -->
+
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                                <div class="example-button-row">
+                                    <button mat-raised-button color="warn" (click)="closeDialog()" tabindex="-1">
+                                        Cancel
+                                    </button>
+                                    <button mat-raised-button color="primary" [disabled]="!uploadForm.valid"
+                                        (click)="onSubmit()">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        <b>Submit</b>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>

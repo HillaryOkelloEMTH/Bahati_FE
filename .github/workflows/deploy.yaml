@@ -1,0 +1,68 @@
+name: Bahati Dairy Angular App Deployment
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed  # Runs when a pull request is merged  or closed.
+
+  push:
+    branches:
+      - main  # Deploy only when changes hit main branch
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setting Up Docker
+      run: |
+        # sudo apt-get update
+        # curl -fsSL https://get.docker.com -o get-docker.sh
+        # sh get-docker.sh
+        # sudo usermod -aG docker $USER
+        echo "Docker Version :: "
+        docker --version
+
+    - name: Building Docker Image
+      run: |
+        docker build -t bahati-fe .
+
+    - name: Transferring Docker Image to AWS Dairy Instance.
+      env:
+        PRIVATE_KEY: ${{ secrets.DAIRY_KEY }}
+        HOST: ${{ secrets.DAIRY_HOST }}
+        USER: ${{ secrets.DAIRY_USER }}
+      run: |
+        echo "$PRIVATE_KEY" > private_key.pem
+        chmod 600 private_key.pem
+
+        # save Docker image as a tar archive and transfer it
+        docker save bahati-fe | gzip > bahati-image.tar.gz
+        scp -o StrictHostKeyChecking=no -i private_key.pem bahati-image.tar.gz $USER@$HOST:/var/www/dev
+
+    - name: Deploy Bahati FE Container on AWS.
+      env:
+        PRIVATE_KEY: ${{ secrets.DAIRY_KEY }}
+        HOST: ${{ secrets.DAIRY_HOST }}
+        USER: ${{ secrets.DAIRY_USER }}
+      run: |
+        ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST << 'EOF'
+        set -e
+        set -x
+        sudo docker load < /var/www/dev/bahati-image.tar.gz
+        sudo docker stop bahati-fe-container || true
+        sudo docker rm bahati-fe-container || true
+        sudo docker run --name bahati-fe-container -d -p 127.0.0.1:4355:80 bahati-fe
+        sudo systemctl restart nginx
+        EOF
+        rm private_key.pem
+
+
+        # scp -o StrictHostKeyChecking=no -i private_key.pem -r dist $USER@$HOST:/var/www/dev/
+        # ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST "sudo systemctl restart nginx"

@@ -1,0 +1,11 @@
+<div class="card">
+    <div class="header">
+        <h2>Users Per Role</h2>
+    </div>
+    <div class="body" *ngIf="chartData.length>0 && chartLabels.length>0">
+        <div class="col-8 mx-auto" id="chart">
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+                [responsive]="chartOptions.responsive"></apx-chart>
+        </div>
+    </div>
+</div>

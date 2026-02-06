@@ -1,0 +1,369 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb
+        [title]="'Inactive Accounts'"
+        [items]="['Users']"
+        [active_item]="'Inactive Accounts'"
+      >
+      </app-breadcrumb>
+    </div>
+
+    <!-- Widgets -->
+    <app-user-widgets></app-user-widgets>
+    <!-- #END# Widgets -->
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="table-responsive">
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ms-0">
+                      <li class="dropdown">
+                        <h2>Inactive Accounts</h2>
+                      </li>
+                      <li class="dropdown m-l-20">
+                        <label for="search-input"
+                          ><i class="material-icons search-icon"
+                            >search</i
+                          ></label
+                        >
+                        <input
+                          placeholder="Search"
+                          type="text"
+                          (keyup)="applyFilter($event)"
+                          #filter
+                          class="browser-default search-field"
+                          aria-label="Search box"
+                        />
+                      </li>
+                      <li>
+                        <div class="m-l-10" matTooltip="REFRESH">
+                          <button
+                            mat-mini-fab
+                            color="primary"
+                            (click)="refresh()"
+                          >
+                            <mat-icon class="col-white">refresh</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <li>
+                        <div class="export-button m-l-10" matTooltip="XLSX">
+                          <img
+                            src="assets/images/icons/xlsx.png"
+                            alt=""
+                            (click)="
+                              exporter.exportTable('xlsx', {
+                                fileName: 'assets-list',
+                                sheet: 'sheet1'
+                              })
+                            "
+                          />
+                        </div>
+                      </li>
+                      <li>
+                        <div class="export-button m-l-10" matTooltip="CSV">
+                          <img
+                            src="assets/images/icons/csv.png"
+                            alt=""
+                            (click)="exporter.exportTable('csv')"
+                          />
+                        </div>
+                      </li>
+                      <li>
+                        <div class="export-button m-l-10" matTooltip="JSON">
+                          <img
+                            src="assets/images/icons/json.png"
+                            alt=""
+                            (click)="exporter.exportTable('json')"
+                          />
+                        </div>
+                      </li>
+                      <li>
+                        <div class="export-button m-l-10" matTooltip="TXT">
+                          <img
+                            src="assets/images/icons/txt.png"
+                            alt=""
+                            (click)="exporter.exportTable('txt')"
+                          />
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <mat-table
+                #table
+                matTableExporter
+                [dataSource]="dataSource"
+                matSort
+                class="mat-cell"
+                #exporter="matTableExporter"
+              >
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    [ngClass]="'tbl-col-width-per-6'"
+                  >
+                    <mat-checkbox
+                      (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [ngClass]="'tbl-checkbox'"
+                    >
+                    </mat-checkbox>
+                  </mat-header-cell>
+                  <mat-cell
+                    *matCellDef="let row"
+                    [ngClass]="'tbl-col-width-per-6'"
+                  >
+                    <mat-checkbox
+                      (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [ngClass]="'tbl-checkbox'"
+                    >
+                    </mat-checkbox>
+                  </mat-cell>
+                </ng-container>
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-8"
+                    >Id</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let user"
+                    class="column-nowrap psl-3 tbl-col-width-per-8"
+                    >{{ user.id }}</mat-cell
+                  >
+                </ng-container>
+                <ng-container matColumnDef="username">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                    >Username</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let user"
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                    >{{ user.username }}</mat-cell
+                  >
+                </ng-container>
+                <ng-container matColumnDef="firstname">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                    >Firstname</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let user"
+                    (contextmenu)="onContextMenu($event, user)"
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                  >
+                    {{ user.firstname }}</mat-cell
+                  >
+                </ng-container>
+                <ng-container matColumnDef="lastname">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                    >Lastname</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let user"
+                    (contextmenu)="onContextMenu($event, user)"
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                  >
+                    {{ user.lastname }}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="phonenumber">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                    >Phonenumber</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let user"
+                    (contextmenu)="onContextMenu($event, user)"
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                  >
+                    {{ user.phonenumber }}</mat-cell
+                  >
+                </ng-container>
+                <ng-container matColumnDef="email">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                    >Email</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let user"
+                    (contextmenu)="onContextMenu($event, user)"
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                  >
+                    {{ user.email }}</mat-cell
+                  >
+                </ng-container>
+                <ng-container matColumnDef="department">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Mobile</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let user"
+                    (contextmenu)="onContextMenu($event, user)"
+                  >
+                    {{ user.mobile }}</mat-cell
+                  >
+                </ng-container>
+                <ng-container matColumnDef="status">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                    >Account Active</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let user"
+                    (contextmenu)="onContextMenu($event, user)"
+                    class="column-nowrap psl-3 tbl-col-width-per-20"
+                  >
+                    {{ user.acctActive }}</mat-cell
+                  >
+                </ng-container>
+
+                <!-- actions -->
+                <ng-container matColumnDef="viewDetails">
+                  <mat-header-cell class="column-nowrap psl-3 tbl-col-width-per-20 pr-0" *matHeaderCellDef
+                    >View Details</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let user"
+                    class="tcolumn-nowrap psl-3 tbl-col-width-per-20 pr-0"
+                    >
+                    <button class="badge badge-solid-blue btn btn btn-sm m-1"
+                    (click)="detailsCall(user)">View Details</button>
+                    </mat-cell
+                  >
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell class="column-nowrap psl-3 tbl-col-width-per-20 pr-0" *matHeaderCellDef
+                    >Activate User</mat-header-cell
+                  >
+                  <mat-cell
+                    *matCellDef="let user"
+                    class="tcolumn-nowrap psl-3 tbl-col-width-per-20 pr-0"
+                    >
+                    <button class="badge badge-solid-green btn btn btn-sm m-1"
+                    (click)="activateUserCall(user)">Activate User</button>
+                    </mat-cell
+                  >
+                </ng-container>
+               
+                <mat-header-row
+                  *matHeaderRowDef="displayedColumns"
+                ></mat-header-row>
+                <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                <mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                  [style.cursor]="'pointer'"
+                  matRipple
+                >
+                </mat-row>
+              </mat-table>
+              <!-- Loading spinner -->
+              <div *ngIf="isLoading" class="tbl-spinner">
+                <mat-progress-spinner
+                  color="primary"
+                  [diameter]="40"
+                  mode="indeterminate"
+                >
+                </mat-progress-spinner>
+              </div>
+              <!-- context menu start -->
+              <div
+                style="visibility: hidden; position: fixed"
+                [style.left]="contextMenuPosition.x"
+                [style.top]="contextMenuPosition.y"
+                [matMenuTriggerFor]="contextMenu"
+              ></div>
+              <mat-menu #contextMenu="matMenu">
+                <ng-template matMenuContent let-item="item">
+                  <button mat-menu-item (click)="addNew()">
+                    <mat-icon>add_box</mat-icon>
+                    <span>Add Record</span>
+                  </button>
+                  <button mat-menu-item (click)="editCall(item)">
+                    <mat-icon>create</mat-icon>
+                    <span>Edit Record</span>
+                  </button>
+                  <button mat-menu-item (click)="deleteItem(item.id, item)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete Record</span>
+                  </button>
+                  <button mat-menu-item (click)="refresh()">
+                    <mat-icon>refresh</mat-icon>
+                    <span>Refresh Record</span>
+                  </button>
+                  <button mat-menu-item disabled>
+                    <mat-icon>no_encryption</mat-icon>
+                    <span>Disable</span>
+                  </button>
+                  <button mat-menu-item [matMenuTriggerFor]="nestedmenu">
+                    <mat-icon>list_alt</mat-icon>
+                    <span> Nested Menu</span>
+                  </button>
+                </ng-template>
+              </mat-menu>
+              <mat-menu #nestedmenu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon>mail_outline</mat-icon>
+                  <span>Item 1</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>call</mat-icon>
+                  <span>Item 2</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>chat</mat-icon>
+                  <span>Item 3</span>
+                </button>
+              </mat-menu>
+              <!-- context menu end -->
+              <!-- <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
+                [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                No results
+              </div> -->
+              <mat-paginator
+                #paginator
+                [pageIndex]="0"
+                [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+              >
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

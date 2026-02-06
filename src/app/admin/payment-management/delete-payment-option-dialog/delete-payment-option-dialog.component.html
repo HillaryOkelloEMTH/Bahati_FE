@@ -1,0 +1,34 @@
+<div class="content-block bg">
+  <div class="row clearfix bg">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="modalHeader">
+          <div class="modal-about">
+            <div class="font-weight-bold p-t-5 ms-2 me-2 font-17">
+              <strong>Payment Mode</strong>
+            </div>
+          </div>
+          <button mat-icon-button (click)="onClose()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <div mat-dialog-content class="m-4">
+          <p class="mb-4">
+            Are you sure you want to delete this payment Mode.<strong>This action cannot be undone.</strong> 
+          </p>
+        </div>
+
+        <mat-dialog-actions class="m-4" align="end">
+          <button mat-raised-button color="warn" (click)="onClose()" tabindex="-1">
+            Cancel
+          </button>
+          <button mat-raised-button color="primary" (click)="onDelete()">
+            <b>Delete</b>
+          </button>
+          
+        </mat-dialog-actions>
+      </div>
+    </div>
+  </div>
+</div>

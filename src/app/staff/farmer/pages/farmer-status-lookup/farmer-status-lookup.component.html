@@ -1,0 +1,288 @@
+<div class="body-bg d-flex justify-content-between align-items-center">
+  <h3 class="mb-0" class="font-weight-bold p-t-5 ms-2 me-2 font-17">Send Bulk SMS</h3>
+  <button color="warn" mat-icon-button (click)="dialogRef.close()">
+    <mat-icon matTooltip="close">close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content>
+  <mat-horizontal-stepper linear #stepper (selectionChange)="onStepChange($event)">
+    <!-- Step 1: Select Template -->
+    <mat-step [stepControl]="templateForm">
+      <form [formGroup]="templateForm">
+        <ng-template matStepLabel><span style="color: green;">Select Template</span></ng-template>
+
+        <!-- Template selection or textarea -->
+        <div class="mb-3">
+          <label>Choose Template</label>
+          <mat-form-field class="w-100 mb-3" appearance="outline">
+            <mat-label>Templates</mat-label>
+            <mat-select formControlName="template" placeholder="Select template" (selectionChange)="onTemplateChange($event.value)">
+              <mat-option *ngFor="let tmpl of templates" [value]="tmpl">{{ tmpl.templateName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+          <mat-form-field class="w-100 mb-3" appearance="outline">
+            <mat-label>Message</mat-label>
+          <textarea matInput formControlName="message" rows="4" [readonly]="readonly"
+            placeholder="Type your message..."></textarea>
+          </mat-form-field>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <button mat-raised-button color="primary" class="btn btn-success" (click)="stepper.next()" [disabled]="!templateForm.valid">Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 2: Select Filter Type -->
+    <mat-step [stepControl]="filterForm">
+      <form [formGroup]="filterForm">
+        <ng-template matStepLabel><span style="color: green;">Select Farmers</span></ng-template>
+        <div class="row">
+          <div class="col-md-6 mb-1">
+            <label>Active Farmer Category.</label>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Active Options</mat-label>
+
+              <mat-select formControlName="filter" (selectionChange)="clearTable($event)">
+                <mat-option value="All">All Active Farmers</mat-option>
+                <mat-option value="Center">Center Active</mat-option>
+                <mat-option value="Route">Route Active</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-6 mb-1">
+            <label>No. of Active Months</label>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Months</mat-label>
+              <input type="number" matInput formControlName="months" min="1" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Params based on filter -->
+          <div class="col-md-6 mb-3" *ngIf="filterForm.value.filter === 'Route' || filterForm.value.filter === 'Center'">
+            <label>Select {{ filterForm.value.filter === 'Route' ? 'Route' : 'Center' }}</label>
+            <mat-form-field class="w-100" appearance="outline" *ngIf="filterForm.value.filter === 'Center'">
+              <mat-label>Collection Center</mat-label>
+              <input matInput formControlName="location" required readonly />
+              <mat-icon matSuffix (click)="selectCollectionCenter()">search</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field class="w-100" appearance="outline" *ngIf="filterForm.value.filter === 'Route'">
+              <mat-label>{{ filterForm.value.filter === 'Route' ? 'Route' : 'Center' }}</mat-label>
+              <mat-select formControlName="location">
+                <mat-option *ngFor="let r of routes" [value]="r">{{ r.route }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <button mat-stroked-button color="primary" class="w-100 h-80 d-flex align-items-center justify-content-center" [disabled]="loading" (click)="getFarmers()">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              <span *ngIf="!loading">Click to Filter Farmers</span>
+              <span *ngIf="loading">Filtering...</span>
+            </button>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="fs-5 text-success">Selected: {{ selectedCount || 0 }} Farmers</div>
+          </div>
+        </div>
+
+            <!-- You can also add a table here of farmers based on filter -->
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div>
+                <mat-progress-bar class="mat-progress-bar green-progress" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+              </div>
+              <div class="card">
+                  <div class="body">
+                      <div class="table-responsive w-100">
+                          <div class="materialTableHeader">
+                              <div class="row">
+                                  <div class="col-6">
+                                      <ul class="header-buttons-left ms-0">
+                                          <li class="dropdown">
+                                              <h2>Farmers</h2>
+                                          </li>
+                                          <li class="dropdown m-l-20">
+                                              <label for="search-input"><i
+                                                      class="material-icons search-icon">search</i></label>
+                                              <input placeholder="Search" type="text"
+                                                  style="text-transform: capitalize;"
+                                                  (keyup)="applyFilter($event)"
+                                                  class="browser-default search-field"
+                                                  aria-label="Search box" />
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </div>
+                          </div>
+                          <mat-table #table matTableExporter [dataSource]="dataSource" matSort
+                              class="mat-cell" #exporter="matTableExporter">
+                              <!-- Checkbox Column -->
+                              <ng-container matColumnDef="select">
+                                  <mat-header-cell *matHeaderCellDef
+                                      [ngClass]="'tbl-col-width-per-8'">
+                                      <mat-checkbox (change)="$event ? masterToggle() : null; selectedCount = selection.selected.length"
+                                          [checked]="selection.hasValue() && isAllSelected()"
+                                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                          [ngClass]="'tbl-checkbox'">
+                                      </mat-checkbox>
+                                  </mat-header-cell>
+                                  <mat-cell *matCellDef="let row; let i = index"
+                                  [class.odd-row]="i % 2" [class.even-row]="!(i % 2)"
+                                      [ngClass]="'tbl-col-width-per-8'">
+                                      <mat-checkbox (click)="$event.stopPropagation()"
+                                          (change)="$event ? selection.toggle(row) : null; selectedCount = selection.selected.length"
+                                          [checked]="selection.isSelected(row)"
+                                          [ngClass]="'tbl-checkbox'">
+                                      </mat-checkbox>
+                                  </mat-cell>
+                              </ng-container>
+                              <!-- ID Column -->
+                              <ng-container matColumnDef="id">
+                                  <mat-header-cell class="table-img tbl-col-width-per-6"
+                                      *matHeaderCellDef mat-sort-header>#</mat-header-cell>
+                                  <mat-cell class="table-img tbl-col-width-per-6"
+                                      *matCellDef="let element; let i = index"
+                                      [class.odd-row]="i % 2" [class.even-row]="!(i % 2)">{{i +
+                                      1}}</mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="username">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header
+                                    class="column-nowrap">Farmer Name</mat-header-cell>
+                                <mat-cell *matCellDef="let farmer;let i = index"
+                                    [class.odd-row]="i % 2" [class.even-row]="!(i % 2)"
+                                    class="column-wrap">
+                                    {{farmer.username}}
+                                </mat-cell>
+                            </ng-container>
+                              <ng-container matColumnDef="farmer_no">
+                                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                                      class="column-nowrap tbl-col-width-per-8">F/No.
+                                  </mat-header-cell>
+                                  <mat-cell *matCellDef="let farmer;let i = index"
+                                      [class.odd-row]="i % 2" [class.even-row]="!(i % 2)"
+                                      class="column-nowrap tbl-col-width-per-8">
+                                      {{farmer.farmer_no}}
+                                  </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="mobile_no">
+                                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                                      class="column-nowrap">Mobile No</mat-header-cell>
+                                  <mat-cell *matCellDef="let farmer;let i = index"
+                                      [class.odd-row]="i % 2" [class.even-row]="!(i % 2)"
+                                      class="column-nowrap">
+                                      {{farmer.mobile_no}}
+                                  </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="ID No.">
+                                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                                      class="column-nowrap">Id Number</mat-header-cell>
+                                  <mat-cell *matCellDef="let farmer;let i = index"
+                                      [class.odd-row]="i % 2" [class.even-row]="!(i % 2)"
+                                      class="column-nowrap">
+                                      {{farmer.id_number}}
+                                  </mat-cell>
+                              </ng-container>
+                              <mat-header-row
+                                  *matHeaderRowDef="displayedColumns"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumns" [style.cursor]="'pointer'"
+                                  matRipple>
+                              </mat-row>
+                              <mat-cell *matNoDataRow colspan="4">
+                                  No data matching the filter "{{ input.value }}"</mat-cell>
+                          </mat-table>
+
+                          <!-- Loading spinner -->
+                          <div *ngIf="loading" class="tbl-spinner">
+                              <mat-progress-spinner color="primary" [diameter]="50"
+                                  mode="indeterminate">
+                              </mat-progress-spinner>
+                          </div>
+
+                          <div class="tbl-spinner" *ngIf="isdata==false && !loading">
+                              <h4>0 Farmers Found</h4>
+                          </div>
+
+                          <mat-paginator #paginator [pageIndex]="0" [pageSize]="5"
+                              [pageSizeOptions]="[5, 10, 25, 100]">
+                          </mat-paginator>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <button mat-raised-button color="warn" (click)="stepper.previous()">Previous</button>
+          <button mat-raised-button color="primary" (click)="stepper.next()" [disabled]="!filterForm.valid">Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 3: Send Message -->
+    <mat-step>
+      <ng-template matStepLabel><span style="color: green;">Send Message</span></ng-template>
+
+      <div class="card p-3 mb-3" style="background-color: rgba(76, 175, 80, 0.05); border-radius: 12px;">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div>
+              <span><label class="text-muted small">Selected Farmers:</label></span>
+              <span class="fs-5 text-success">  {{ selectedCount || 0 }}</span>
+              </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <button mat-stroked-button color="primary" class="w-100 h-80 d-flex align-items-center justify-content-center faded-bg-button" [disabled]="loading" (click)="sendMessage()">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              <span *ngIf="!loading">Send Messages</span>
+              <span *ngIf="loading">Sending...</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="text-muted small">Selected Template</label>
+            <div class="fw-semibold fs-6">{{ templateForm.value.template?.templateName || '—' }}</div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="text-muted small">Filter Type</label>
+            <div>
+              <span class="fw-semibold fs-6" *ngIf="filterForm.value.filter === 'All'">{{ filterForm.value.filter || '—' }}</span>
+              <span class="fs-6 text-success" *ngIf="filterForm.value.filter === 'Center'">  {{ dialogData?.name }}</span>
+              <span class="fs-6 text-success" *ngIf="filterForm.value.filter === 'Route'">  {{ filterForm.value.location.route }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="text-muted small">Message</label>
+          <div class="fw-normal fs-6 text-wrap" style="white-space: pre-line;">
+            {{ templateForm.value.message || '—' }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <button mat-raised-button color="warn" (click)="stepper.previous()">Previous</button>
+        <!-- <button mat-button color="primary" (click)="sendMessage()">Submit</button> -->
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+
