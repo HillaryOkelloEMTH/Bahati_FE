@@ -355,5 +355,10 @@ export class ReportsService {
     });
   }
   
-
+collectionsPerWeek(from: string, to: string) {
+  return this.http.get(`${environment.apiUrl}/api/v1/excel/reports/collectionsPerWeek`, {
+    params: { startDate: from, endDate: to },
+    responseType: 'blob'
+  });
+}
 }

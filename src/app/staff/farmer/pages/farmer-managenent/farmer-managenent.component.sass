@@ -1,0 +1,85 @@
+.farmer-counts-header
+	display: flex
+	align-items: center
+	justify-content: space-between
+	margin: 0 0 12px
+
+	h4
+		color: #263238
+		font-weight: 600
+
+.counts-period
+	color: #78909c
+	font-size: 13px
+
+.farmer-counts-grid
+	display: grid
+	grid-template-columns: repeat(4, minmax(0, 1fr))
+	gap: 16px
+	width: 100%
+	margin-bottom: 20px
+
+.farmer-count-card
+	display: flex
+	align-items: center
+	gap: 14px
+	min-height: 112px
+	padding: 18px
+	border-left: 4px solid
+	box-shadow: 0 2px 8px rgba(38, 50, 56, 0.08)
+
+	mat-icon
+		width: 42px
+		height: 42px
+		display: grid
+		place-items: center
+		border-radius: 50%
+		font-size: 23px
+
+	.count-label
+		display: block
+		color: #607d8b
+		font-size: 13px
+		margin-bottom: 5px
+
+	strong
+		display: block
+		color: #263238
+		font-size: 26px
+		line-height: 1
+
+.total-card
+	border-color: #1976d2
+
+	mat-icon
+		color: #1976d2
+		background: #e3f2fd
+
+.active-card
+	border-color: #2e7d32
+
+	mat-icon
+		color: #2e7d32
+		background: #e8f5e9
+
+.dormant-card
+	border-color: #ef6c00
+
+	mat-icon
+		color: #ef6c00
+		background: #fff3e0
+
+.never-delivered-card
+	border-color: #7b1fa2
+
+	mat-icon
+		color: #7b1fa2
+		background: #f3e5f5
+
+@media (max-width: 992px)
+	.farmer-counts-grid
+		grid-template-columns: repeat(2, minmax(0, 1fr))
+
+@media (max-width: 576px)
+	.farmer-counts-grid
+		grid-template-columns: 1fr

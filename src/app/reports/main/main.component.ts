@@ -52,6 +52,7 @@ export class MainComponent implements OnInit {
   paymentFileForm: FormGroup
   paymentFileFormdr:FormGroup
   reportCollectionFormm:FormGroup
+  weeklyCollectionsForm: FormGroup
   mccMonthlyRouteSummary: FormGroup
   isloading: boolean
   collectors: any
@@ -156,6 +157,15 @@ export class MainComponent implements OnInit {
         year: [this.currentYear, [Validators.required]],
       }
     )
+
+
+    this.weeklyCollectionsForm = this.fb.group(
+  {
+    from: ["", Validators.required],
+    to: ["", Validators.required],
+  },
+  { validators: this.dateRangeValidator }
+);
 
   }
   generateDateReport() {
@@ -846,7 +856,39 @@ export class MainComponent implements OnInit {
       );
   }
 
+generateWeeklyCollectionsReport() {
+  if (this.weeklyCollectionsForm.invalid) {
+    return;
+  }
 
+  const from = this.datePipe.transform(this.weeklyCollectionsForm.value.from, 'yyyy-MM-dd');
+  const to = this.datePipe.transform(this.weeklyCollectionsForm.value.to, 'yyyy-MM-dd');
+
+  this.isloading = true;
+
+  this.service.collectionsPerWeek(from, to).subscribe({
+    next: (response: Blob) => {
+      this.isloading = false;
+
+      const filename = `collections_${from}_to_${to}.xlsx`;
+      saveAs(response, filename);
+
+      this.snackbar.showNotification(
+        "snackbar-success",
+        "Weekly collections report generated successfully"
+      );
+    },
+    error: (error) => {
+      this.isloading = false;
+
+      console.error(error);
+      this.snackbar.showNotification(
+        "snackbar-danger",
+        "Failed to generate weekly collections report"
+      );
+    }
+  });
+}
 
 
   farmerCollectionsReport() {

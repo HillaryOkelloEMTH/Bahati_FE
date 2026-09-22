@@ -18,6 +18,19 @@ export interface BankOption {
   categoryName: string;
 }
 
+export interface FarmerCounts {
+  months: number;
+  activeCount: number;
+  dormantCount: number;
+  neverDeliveredCount: number;
+  totalFarmers: number;
+}
+
+export interface FarmerAnalyticsResponse {
+  count: number;
+  farmers: any[];
+}
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -30,6 +43,26 @@ export class FarmerService {
 
   public getFarmers(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/api/v1/farmer/all`, httpOptions);
+  }
+
+  public getFarmerCounts(): Observable<{ entity: FarmerCounts }> {
+    return this.http.get<{ entity: FarmerCounts }>(`${environment.apiUrl}/api/v1/farmer/counts`, httpOptions);
+  }
+
+  public getDormantFarmers(months: number): Observable<{ entity: FarmerAnalyticsResponse }> {
+    return this.http.get<{ entity: FarmerAnalyticsResponse }>(`${environment.apiUrl}/api/v1/farmer/dormant?months=${months}`, httpOptions);
+  }
+
+  public getActiveFarmerStats(months: number): Observable<{ entity: FarmerAnalyticsResponse }> {
+    return this.http.get<{ entity: FarmerAnalyticsResponse }>(`${environment.apiUrl}/api/v1/farmer/active/stats?months=${months}`, httpOptions);
+  }
+
+  public getTopFarmers(months: number): Observable<{ entity: FarmerAnalyticsResponse }> {
+    return this.http.get<{ entity: FarmerAnalyticsResponse }>(`${environment.apiUrl}/api/v1/farmer/top?months=${months}`, httpOptions);
+  }
+
+  public getBottomFarmers(months: number): Observable<{ entity: FarmerAnalyticsResponse }> {
+    return this.http.get<{ entity: FarmerAnalyticsResponse }>(`${environment.apiUrl}/api/v1/farmer/bottom?months=${months}`, httpOptions);
   }
 
   public getActiveFarmers(months: number): Observable<any> {

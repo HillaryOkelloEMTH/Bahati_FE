@@ -6,6 +6,15 @@
         [items]="['Farmers']"
         [active_item]="'All Farmers'"
       ></app-breadcrumb>
+      <button
+        mat-stroked-button
+        color="primary"
+        routerLink="/staff/farmers/farmers/analytics"
+        aria-label="Open farmer analytics"
+      >
+        <mat-icon>insights</mat-icon>
+        Farmer Analytics
+      </button>
     </div>
 
     <div class="row">
@@ -13,6 +22,62 @@
         mode="indeterminate"
         *ngIf="isLoading"
       ></mat-progress-bar>
+
+      <div class="farmer-counts-header">
+        <div>
+          <h4 class="mb-1">Farmer Overview</h4>
+          <span class="counts-period" *ngIf="farmerCounts; else countsLoadingLabel">
+            Last {{ farmerCounts.months }} months
+          </span>
+          <ng-template #countsLoadingLabel>
+            <span class="counts-period">Loading latest counts...</span>
+          </ng-template>
+        </div>
+        <button
+          mat-icon-button
+          matTooltip="Refresh farmer counts"
+          aria-label="Refresh farmer counts"
+          (click)="getFarmerCounts()"
+          [disabled]="countsLoading"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+
+      <div class="farmer-counts-grid">
+        <mat-card class="farmer-count-card total-card">
+          <mat-icon>groups</mat-icon>
+          <div>
+            <span class="count-label">Total Farmers</span>
+            <strong>{{ farmerCounts?.totalFarmers ?? 0 | number }}</strong>
+          </div>
+        </mat-card>
+
+        <mat-card class="farmer-count-card active-card">
+          <mat-icon>task_alt</mat-icon>
+          <div>
+            <span class="count-label">Active</span>
+            <strong>{{ farmerCounts?.activeCount ?? 0 | number }}</strong>
+          </div>
+        </mat-card>
+
+        <mat-card class="farmer-count-card dormant-card">
+          <mat-icon>pause_circle</mat-icon>
+          <div>
+            <span class="count-label">Dormant</span>
+            <strong>{{ farmerCounts?.dormantCount ?? 0 | number }}</strong>
+          </div>
+        </mat-card>
+
+        <mat-card class="farmer-count-card never-delivered-card">
+          <mat-icon>local_shipping</mat-icon>
+          <div>
+            <span class="count-label">Never Delivered</span>
+            <strong>{{ farmerCounts?.neverDeliveredCount ?? 0 | number }}</strong>
+          </div>
+        </mat-card>
+      </div>
+
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
           <div class="body">

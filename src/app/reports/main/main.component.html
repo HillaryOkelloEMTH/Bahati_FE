@@ -77,6 +77,55 @@
                   </mat-accordion>
                 </li>
 
+<li class="d-flex mb-3">
+  <mat-accordion class="example-headers-align" multi>
+    <mat-progress-bar mode="indeterminate" *ngIf="isloading"></mat-progress-bar>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Weekly Collections Report
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form class="register-form" [formGroup]="weeklyCollectionsForm" (ngSubmit)="generateWeeklyCollectionsReport()">
+        <div class="row">
+
+          <mat-form-field class="m-l-5">
+            <input matInput [matDatepicker]="pw1" placeholder="From date" formControlName="from">
+            <mat-datepicker-toggle matSuffix [for]="pw1"></mat-datepicker-toggle>
+            <mat-datepicker #pw1></mat-datepicker>
+            <mat-error *ngIf="weeklyCollectionsForm.get('from')?.hasError('required')">
+              From date is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="m-l-5">
+            <input matInput [matDatepicker]="pw2" placeholder="To date" formControlName="to">
+            <mat-datepicker-toggle matSuffix [for]="pw2"></mat-datepicker-toggle>
+            <mat-datepicker #pw2></mat-datepicker>
+            <mat-error *ngIf="weeklyCollectionsForm.get('to')?.hasError('required')">
+              To date is required
+            </mat-error>
+            <mat-error *ngIf="weeklyCollectionsForm.hasError('dateRangeInvalid')">
+              To date must be after From date
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+
+        <div class="example-button-row">
+          <button mat-raised-button color="primary" type="submit"
+            [disabled]="weeklyCollectionsForm.invalid || isloading">
+            <span *ngIf="isloading" class="spinner-border spinner-border-sm mr-1"></span>
+            <b>Generate</b>
+          </button>
+        </div>
+      </form>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</li>
+
                 <li (click)="collectionsPerLocation('Report For Single User Action Items')" class="d-flex mb-3">
                   <mat-accordion class="example-headers-align" multi>
                     <mat-progress-bar mode="indeterminate" *ngIf="isloading"></mat-progress-bar>

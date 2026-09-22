@@ -23,7 +23,6 @@ const materialModules = [
   MatTooltipModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  NgxMaskModule.forRoot(),
   MatButtonToggleModule,
   MatFormFieldModule,
   MatSlideToggleModule,
@@ -35,7 +34,7 @@ const materialModules = [
 
 @NgModule({
   declarations: [],
-  imports: [materialModules],
-  exports: [materialModules],
+  imports: [...materialModules, NgxMaskModule.forRoot()],
+  exports: [...materialModules, NgxMaskModule],
 })
 export class MaterialModule {}

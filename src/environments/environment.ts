@@ -4,8 +4,12 @@
 
 export const environment = {
   production: false,
-  apiUrl: "https://bahatidairy.emtechhouse.co.ke:9400",
-  API: "https://bahatidairy.emtechhouse.co.ke:9400",
+  // apiUrl: "https://bahatidairy.emtechhouse.co.ke:9400",
+  // API: "https://bahatidairy.emtechhouse.co.ke:9400",
+  //  apiUrl: "https://bahatidairyuat.emtechhouse.co.ke/backend",
+  // API: "https://bahatidairyuat.emtechhouse.co.ke/backend",
+  apiUrl: "http://localhost:9400",
+  API: "http://localhost:9400",
 };
 
 /*

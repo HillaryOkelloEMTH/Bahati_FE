@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { FarmerService } from '../../services/farmer.service';
+import { FarmerCounts, FarmerService } from '../../services/farmer.service';
 import { DeleteFarmerComponent } from '../delete-farmer/delete-farmer.component';
 import { FarmerDetailsComponent } from '../farmer-details/farmer-details.component';
 import { RegisterFarmerComponent } from '../register-farmer/register-farmer.component';
@@ -39,6 +39,8 @@ export class FarmerManagenentComponent implements OnInit {
   data: any;
   isdata: boolean = false;
   isLoading: boolean = false;
+  countsLoading: boolean = false;
+  farmerCounts: FarmerCounts | null = null;
 
   constructor(
     private router: Router,
@@ -93,6 +95,7 @@ export class FarmerManagenentComponent implements OnInit {
 
     // Fetch all farmers on page load
     this.getData();
+    this.getFarmerCounts();
   }
 
   ngOnDestroy(): void {
@@ -116,6 +119,21 @@ export class FarmerManagenentComponent implements OnInit {
 
     filterButtonClicked(): void {
       this.filterFarmers();
+    }
+
+    getFarmerCounts(): void {
+      this.countsLoading = true;
+      this.service.getFarmerCounts().subscribe({
+        next: (res) => {
+          this.farmerCounts = res.entity;
+          this.countsLoading = false;
+        },
+        error: (error) => {
+          console.error('Error fetching farmer counts:', error);
+          this.countsLoading = false;
+          this.snackbar.showNotification('error', 'Failed to fetch farmer counts');
+        }
+      });
     }
 
 

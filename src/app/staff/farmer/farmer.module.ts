@@ -24,6 +24,8 @@ import { FarmerStatusLookupComponent } from './pages/farmer-status-lookup/farmer
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SalesModule } from '../sales/sales.module';
+import { FarmerAnalyticsComponent } from './pages/farmer-analytics/farmer-analytics.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 @NgModule({
     declarations: [
         FarmerManagenentComponent,
@@ -33,6 +35,7 @@ import { SalesModule } from '../sales/sales.module';
         DeleteFarmerComponent,
         FarmerLookupComponent,
         FarmerStatusLookupComponent,
+        FarmerAnalyticsComponent,
     ],
     imports: [
         CommonModule,
@@ -52,6 +55,7 @@ import { SalesModule } from '../sales/sales.module';
         MatStepperModule,
         MatCheckboxModule,
         SalesModule
+        ,NgApexchartsModule
     ]
 })
 export class FarmerModule { }
